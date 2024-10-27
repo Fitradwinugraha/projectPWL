@@ -1,0 +1,110 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    align-items: start;
+    color: #333333;
+}
+
+.content h4 {
+    font-size: 28px;
+    margin-top: 45px;
+    color: #414F91;
+}
+
+.content p {
+    font-size: 24px;
+    color: #000000;
+    margin-bottom: 0px;
+    margin-top: -30px;
+}
+
+.container {
+    margin-top: 90px;
+    display: flex;
+    gap: 90px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.card .title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card .value {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-blue .title {
+    color: #3b82f6;
+}
+
+.card-blue::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: #3b82f6;
+    border-radius: 10px 0 0 10px;
+}
+
+.card-green .title {
+    color: #10b981;
+}
+
+.card-green::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: #10b981;
+    border-radius: 10px 0 0 10px;
+}
+
+.card-teal .title {
+    color: #14b8a6;
+}
+
+.card-teal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: #14b8a6;
+    border-radius: 10px 0 0 10px;
+}
+
+.card-yellow .title {
+    color: #f59e0b;
+}
+
+.card-yellow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: #f59e0b;
+    border-radius: 10px 0 0 10px;
+}
