@@ -8,12 +8,19 @@ class AdminController extends Controller
 {
     public function dashboardadmin()
     {
-        return view('dashboardadmin'); // Pastikan view ini ada
+        return view('dashboardadmin'); 
     }
 
     public function showDashboard()
     {
-        $title = 'Dashboard Admin'; // Atur judul sesuai kebutuhan
+        $title = 'Dashboard Admin'; 
         return view('dashboardadmin', compact('title'));
     }
+    
+    public function showMotor()
+    {
+    $title = 'Daftar Motor';
+    return view('motor', compact('title'));
+    }
+
 }

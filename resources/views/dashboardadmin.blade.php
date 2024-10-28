@@ -2,7 +2,8 @@
 
 @section('sidebar')
 <div id="sidebar" class="d-flex flex-column p-3">
-    <h3>Brand?</h3>
+    <h3><img src="{{ asset('assets/img/logos.png') }}" alt="Dashboard Icon" style="width: 165px; height: 45px; margin-right: 8px; vertical-align: middle;"></h3>
+    <p>Admin</p>
     <ul class="nav flex-column">
         <li class="nav-item">
             <a href="#" class="nav-link">
@@ -17,15 +18,15 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+        <a href="{{ route('admin.motor') }}" class="nav-link">
                 <img src="{{ asset('assets/img/motorcycle.png') }}" alt="Motor Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Motor
             </a>
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <img src="{{ asset('assets/img/motorcycle.png') }}" alt="Motor Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
-                Merek Motor
+                <img src="{{ asset('assets/img/vespa.png') }}" alt="Motor Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
+                Brand Motor
             </a>
         </li>
         <li class="nav-item">

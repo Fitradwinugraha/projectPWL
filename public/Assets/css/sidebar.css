@@ -3,7 +3,7 @@
     min-height: 100vh;
     width: 240px;
     background-color: #414F91;
-    color: #ffffff;
+    color: #ffffffb8;
 }
 
 #sidebar h3 {
@@ -14,8 +14,17 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.553);
 }
 
+#sidebar p {
+    color: #989898;
+    text-align: left;
+    font-weight: semi-bold;
+    margin-top: -30px;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.366);
+}
+
 #sidebar .nav-link {
-    color: #ffffff;
+    color: #ffffff84;
     font-weight: semi-bold;
     padding: 15px 5px 10px;
     font-size: 16px;
@@ -24,12 +33,11 @@
 
 
 #sidebar .nav-link:hover {
-    background-color: #ffc107;
-    color: #343a40;
+    background-color: #ffbf0013;
+    color: #ffffff;
     
 }
 
-/* Kelas tambahan di sidebar */
 .nav-item2 {
     border-top: 1px solid rgba(255, 255, 255, 0.553);
     

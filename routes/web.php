@@ -18,4 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', [AdminController::class, 'dashboardadmin']);
+Route::get('/admin/dashboard', [AdminController::class, 'dashboardadmin'])->name('admin.dashboard');
+Route::get('/motor', [AdminController::class, 'showMotor'])->name('admin.motor');
