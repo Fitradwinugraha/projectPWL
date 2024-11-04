@@ -8,7 +8,8 @@
 
 .content h4 {
     font-size: 28px;
-    margin-top: 45px;
+    margin-top: 5px;
+    margin-bottom: 45px;
     color: #414F91;
 }
 
@@ -19,14 +20,6 @@
     margin-top: -30px;
 }
 
-.table-container {
-    background-color: white;
-    border-radius: 5px;
-    padding-left: 220px;
-    margin-left: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .motor-table-container {
     background-color: white;
     border-radius: 5px;
@@ -35,8 +28,6 @@
     margin-top: 30px;
     width: 100%;
 }
-
-
 
 .container {
     margin-top: 90px;
@@ -127,3 +118,13 @@
     background-color: #f59e0b;
     border-radius: 10px 0 0 10px;
 }
+
+.form-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: -57px;
+    width: 100%;
+}
+

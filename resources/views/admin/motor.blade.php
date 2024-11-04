@@ -18,13 +18,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.motor') }}" class="nav-link">
                     <img src="{{ asset('assets/img/motorcycle.png') }}" alt="Motor Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                     Motor
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.brand') }}" class="nav-link">
                     <img src="{{ asset('assets/img/vespa.png') }}" alt="Motor Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                     Brand Motor
                 </a>
@@ -46,9 +46,10 @@
 @endsection
 
 @section('content')
-<div class="motor-table-container p-3 shadow-sm">
+<div class="motor-table-container p-10 shadow-sm">
     <h4>Daftar Motor</h4>
-    <table class="table table-bordered mb-0">
+    <a href="{{ route('admin.tambahmotor') }}" class="btn btn-primary mb-3">Tambah Data</a>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>No</th>
@@ -63,19 +64,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Tes</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+            @foreach ($motors as $index => $motor)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ $motor->nama_motor }}</td>
+                    <td>{{ $motor->merek->merek_motor }}</td>
+                    <td><img src="{{ asset('uploads/' . $motor->foto_motor) }}" alt="Foto Motor" style="width: 150px; height: auto;"></td>
+                    <td>Rp. {{ number_format($motor->harga_sewa, 2, ',', '.') }}</td>
+                    <td>{{$motor->merek->tahun_pembuatan }}</td>
+                    <td>{{ ($motor->transmisi) }}</td>
+                    <td>{{ ($motor->status) }}</td>
+                    <td>
+                        <a href="{{ route('admin.editmotor', $motor->id) }}" class="btn">
+                            <img src="{{ asset('assets/img/edit.png') }}" alt="Edit" style="width: 28px; height: 28px;">
+                        </a>
+                        <form action="{{ route('admin.deletemotor', $motor->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn" onclick="return confirm('Apakah Anda yakin ingin menghapus data motor ini?')">
+                                <img src="{{ asset('assets/img/remove.png') }}" alt="Delete" style="width: 28px; height: 28px;">
+                            </button>
+                        </form>
+                    </td>
+
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>
-
-
 @endsection
+
