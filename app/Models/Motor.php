@@ -13,17 +13,15 @@ class Motor extends Model
 
     protected $fillable = [
         'nama_motor',
-        'merek_id',
+        'merek_motor',  
+        'tahun_pembuatan',  
         'nomor_polisi',
         'foto_motor',
         'harga_sewa',
         'transmisi',
         'status'
     ];
-
-    public function merek()
-    {
-        return $this->belongsTo(Merek::class);
-    }
 }
+
+
 

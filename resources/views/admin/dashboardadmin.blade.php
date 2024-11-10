@@ -24,12 +24,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('admin.brand') }}" class="nav-link">
-                <img src="{{ asset('assets/img/vespa.png') }}" alt="Motor Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
-                Brand Motor
-            </a>
-        </li>
-        <li class="nav-item">
             <a href="#" class="nav-link">
                 <img src="{{ asset('assets/img/invoice.png') }}" alt="Invoice Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Transaksi
