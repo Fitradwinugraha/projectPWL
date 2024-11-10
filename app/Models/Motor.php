@@ -19,7 +19,7 @@ class Motor extends Model
         'foto_motor',
         'harga_sewa',
         'transmisi',
-        'status'
+        'status',
     ];
 }
 
