@@ -12,7 +12,7 @@
                     <a href="https://www.tiktok.com" class="text-2xl"><i class="fab fa-tiktok"></i></a>
                     <a href="https://www.twitter.com" class="text-2xl"><i class="fab fa-twitter"></i></a>
                     <a href="https://www.example.com" class="text-2xl"><i class="fas fa-globe"></i></a>
-                    <a href="https://www.youtube.com" class="text-2xl"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="text-2xl"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
