@@ -51,13 +51,10 @@
                             <li>Kualitas Terbaik</li>
                             <li>Harga Bersaing</li>
                             <li>Proses Sewa Mudah</li>
-                            <li>---</li>
+                            <li>Proses Cepat</li>
                         </ul>
                     </div>
                 </div>
-                <!-- <div class="flex items-center justify-center">
-                    <img src="https://via.placeholder.com/300" alt="logo-himakom" class="max-w-full h-[150px]"/>
-                </div> -->
                 <div class="flex items-center justify-center">
                     <img src="{{ asset('assets/img/logos.png') }}" alt="logo" class="max-w-full h-[75px]"/>
                 </div>
