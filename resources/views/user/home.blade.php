@@ -77,113 +77,23 @@
             </h1>
         </div>
 
-        <div class="flex justify-center space-x-4 mb-6">
-            <button onclick="filterCards('all')" class="px-4 py-2 bg-blue-500 text-white rounded"><i class="fas fa-list"></i></button>
-            <button onclick="filterCards('Honda')" class="px-4 py-2 bg-blue-500 text-white rounded">Honda</button>
-            <button onclick="filterCards('Yamaha')" class="px-4 py-2 bg-blue-500 text-white rounded">Yamaha</button>
-        </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="bikes">
-            <!-- Honda Cards -->
-            <div class="card Honda bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300" alt="Honda Beat" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-900">Honda Beat</h3>
-                    <p class="text-gray-700">Lampung</p>
-                    <p class="text-green-500 font-semibold mt-2">Rp 100,000</p>
+            @foreach($motors as $motor)
+                <div class="card bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
+                    <img src="{{ asset('uploads/' . $motor->foto_motor) }}" alt="{{ $motor->nama_motor }}" class="w-full h-48 object-cover" style="width: 300px; height: 300;">
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold text-gray-900">{{ $motor->nama_motor }}</h3>
+                        <p class="text-gray-700">{{ $motor->merek_motor }}</p>
+                        <p class="text-green-500 font-semibold mt-2">Rp {{ number_format($motor->harga_sewa, 0, ',', '.') }}</p>
+                    </div>
+                    <div class="flex items-center justify-center py-4">
+                        <button onclick="window.location.href='/transaksi'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
+                        <a href="https://wa.me/6281375839812" target="_blank">
+                            <i class="fab fa-whatsapp text-2xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 border rounded inline-block ml-2"></i>
+                        </a>
+                    </div>
                 </div>
-                <div class="flex items-center justify-center py-4">
-                    <button onclick="window.location.href='/transaksi'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
-                    <a href="https://wa.me/6281375839812" target="_blank">
-                        <i class="fab fa-whatsapp text-2xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 border rounded inline-block ml-2"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="card Honda bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300" alt="Honda Vario" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-900">Honda Vario</h3>
-                    <p class="text-gray-700">Lampung</p>
-                    <p class="text-green-500 font-semibold mt-2">Rp 100,000</p>
-                </div>
-                <div class="flex items-center justify-center py-4">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
-                    <a href="https://wa.me/6281375839812" target="_blank">
-                        <i class="fab fa-whatsapp text-2xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 border rounded inline-block ml-2"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="card Honda bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300" alt="Honda Scoopy" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-900">Honda Scoopy</h3>
-                    <p class="text-gray-700">Lampung</p>
-                    <p class="text-green-500 font-semibold mt-2">Rp 100,000</p>
-                </div>
-                <div class="flex items-center justify-center py-4">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
-                    <a href="https://wa.me/6281375839812" target="_blank">
-                        <i class="fab fa-whatsapp text-2xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 border rounded inline-block ml-2"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Yamaha Cards -->
-            <div class="card Yamaha bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300" alt="Yamaha NMAX" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-900">Yamaha NMAX</h3>
-                    <p class="text-gray-700">Lampung</p>
-                    <p class="text-green-500 font-semibold mt-2">Rp 100,000</p>
-                </div>
-                <div class="flex items-center justify-center py-4">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
-                    <a href="https://wa.me/6281375839812" target="_blank">
-                        <i class="fab fa-whatsapp text-2xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 border rounded inline-block ml-2"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="card Yamaha bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300" alt="Yamaha Mio" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-900">Yamaha Mio</h3>
-                    <p class="text-gray-700">Lampung</p>
-                    <p class="text-green-500 font-semibold mt-2">Rp 100,000</p>
-                </div>
-                <div class="flex items-center justify-center py-4">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
-                    <a href="https://wa.me/6281375839812" target="_blank">
-                        <i class="fab fa-whatsapp text-2xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 border rounded inline-block ml-2"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="card Yamaha bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="https://via.placeholder.com/300" alt="Yamaha Aerox" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-900">Yamaha Aerox</h3>
-                    <p class="text-gray-700">Lampung</p>
-                    <p class="text-green-500 font-semibold mt-2">Rp 100,000</p>
-                </div>
-                <div class="flex items-center justify-center py-4">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
-                    <a href="https://wa.me/6281375839812" target="_blank">
-                        <i class="fab fa-whatsapp text-2xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 border rounded inline-block ml-2"></i>
-                    </a>
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
-
-    <script>
-        function filterCards(category) {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                if (category === 'all' || card.classList.contains(category)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    </script>
 @endsection
