@@ -20,9 +20,37 @@ class UserController extends Controller
     }
 
     public function transaksi()
-    {
+    {   
         return view('user.transaksi');
     }
+
+    public function profile()
+    {
+        return view('user.profile');
+    }
+    
+    public function updateProfile(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'alamat' => 'required|string',
+            'deskripsi' => 'required|string',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $user = auth()->user();
+        $user->username = $request->username;
+        $user->nama = $request->nama;
+        $user->email = $request->email;
+        $user->alamat = $request->alamat;
+        $user->deskripsi = $request->deskripsi;
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    }
+
 
     /**
      * Show the form for creating a new resource.

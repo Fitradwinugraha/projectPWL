@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +17,26 @@ use App\Http\Controllers\UserController;
 |
 */
 
+// User Routes
 Route::get('/', [UserController::class, 'index']);
 
-Route::get('/transaksi', [UserController::class, 'transaksi']);
+Route::get('/transaksi', [UserController::class, 'transaksi'])->middleware('auth');
+Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
 
+Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+
+// Auth Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'storeLogin'])->name('login');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'storeRegister'])->name('register');
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+
+// Admin Routes
 Route::get('/admin/dashboard', [AdminController::class, 'dashboardadmin'])->name('admin.dashboard');
 Route::get('/admin/motor', [AdminController::class, 'showMotor'])->name('admin.motor');
 Route::get('/admin/tambahmotor', [AdminController::class, 'tambahMotor'])->name('admin.tambahmotor');
