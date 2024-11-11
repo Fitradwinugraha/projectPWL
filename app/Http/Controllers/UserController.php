@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Motor;
 
 class UserController extends Controller
 {
@@ -13,7 +12,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user.home');
+        // Ambil semua data motor dengan status 'tersedia'
+        $motors = Motor::where('status', 'tersedia')->get();
+        
+        // Kirim data motor ke view home
+        return view('user.home', compact('motors'));
     }
 
     public function transaksi()
@@ -96,4 +99,8 @@ class UserController extends Controller
     {
         //
     }
+
+    
 }
+
+

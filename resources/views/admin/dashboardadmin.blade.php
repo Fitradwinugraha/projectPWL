@@ -25,12 +25,6 @@
         </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
-                <img src="{{ asset('assets/img/vespa.png') }}" alt="Motor Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
-                Brand Motor
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
                 <img src="{{ asset('assets/img/invoice.png') }}" alt="Invoice Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Transaksi
             </a>
@@ -59,8 +53,6 @@
     <p><img src="{{ asset('assets/img/home.png') }}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px; vertical-align: middle;">
     Dashboard</p>
     <h4>Selamat Datang, Admin!</h4>
-    
-    
     
     <div class="container d-flex gap-5 mt-4">
         <div class="card card-blue">

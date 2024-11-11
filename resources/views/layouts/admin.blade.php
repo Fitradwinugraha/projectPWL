@@ -14,7 +14,6 @@
         @yield('sidebar')
         
 
-        <!-- Konten Utama -->
         <div class="content p-4 w-100">
             @yield('content')
             
