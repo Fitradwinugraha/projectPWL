@@ -20,7 +20,11 @@ use Illuminate\Support\Facades\Auth;
 // User Routes
 Route::get('/', [UserController::class, 'index']);
 
-Route::get('/transaksi', [UserController::class, 'transaksi'])->middleware('auth');
+// Route untuk transaksi dengan parameter ID motor
+Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])
+    ->name('transaksi')
+    ->middleware('auth');
+
 Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
 
 Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
@@ -34,7 +38,6 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
 
 // Admin Routes
 Route::get('/admin/dashboard', [AdminController::class, 'dashboardadmin'])->name('admin.dashboard');

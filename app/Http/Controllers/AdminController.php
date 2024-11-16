@@ -25,10 +25,10 @@ class AdminController extends Controller
             'nama_motor' => 'required|string|max:255',
             'merek_motor' => 'required|string|max:255',
             'tahun_pembuatan' => 'required|integer',
-            'nomor_polisi' => 'required|string|unique:motor,nomor_polisi',
             'foto_motor' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'harga_sewa' => 'required|numeric',
             'transmisi' => 'required|in:manual,matic',
+            'jumlah' => 'required|integer',
         ]);
 
         // Simpan foto motor
@@ -42,11 +42,10 @@ class AdminController extends Controller
             'nama_motor' => $request->nama_motor,
             'merek_motor' => $request->merek_motor,
             'tahun_pembuatan' => $request->tahun_pembuatan,
-            'nomor_polisi' => $request->nomor_polisi,
             'foto_motor' => $filename,
             'harga_sewa' => $request->harga_sewa,
             'transmisi' => $request->transmisi,
-            'status' => 'tersedia', // Default value for status
+            'jumlah' => $request->jumlah,
         ]);
 
         return redirect()->route('admin.motor')->with('success', 'Motor berhasil ditambahkan.');
@@ -73,11 +72,10 @@ class AdminController extends Controller
         $request->validate([
             'nama_motor' => 'required|string|max:255',
             'merek_motor' => 'required|string|max:255',
-            'nomor_polisi' => 'required|string|unique:motor,nomor_polisi,' . $id,
             'foto_motor' => 'image|mimes:jpeg,png,jpg|max:2048',
             'harga_sewa' => 'required|numeric',
             'transmisi' => 'required|in:manual,matic',
-            'status' => 'required|in:tersedia,sedang disewa',
+            'jumlah' => 'required|integer',
         ]);
 
         if ($request->hasFile('foto_motor')) {
@@ -89,10 +87,9 @@ class AdminController extends Controller
         $motor->update([
             'nama_motor' => $request->nama_motor,
             'merek_motor' => $request->merek_motor,
-            'nomor_polisi' => $request->nomor_polisi,
             'harga_sewa' => $request->harga_sewa,
             'transmisi' => $request->transmisi,
-            'status' => $request->status,
+            'jumlah' => $request->jumlah,
         ]);
 
         return redirect()->route('admin.motor')->with('success', 'Motor berhasil diperbarui.');
