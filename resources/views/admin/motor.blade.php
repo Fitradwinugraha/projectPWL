@@ -52,10 +52,9 @@
                 <th>Brand</th> 
                 <th>Tahun Pembuatan</th> 
                 <th>Foto</th>
-                <th>Nomor Polisi</th>
                 <th>Harga Sewa</th>
                 <th>Transmisi</th>
-                <th>Status</th>
+                <th>Jumlah</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -67,10 +66,9 @@
                     <td>{{ $motor->merek_motor }}</td>
                     <td>{{ $motor->tahun_pembuatan }}</td>
                     <td><img src="{{ asset('uploads/' . $motor->foto_motor) }}" alt="Foto Motor" style="width: 150px; height: auto;"></td>
-                    <td>{{ $motor->nomor_polisi }}</td>
                     <td>Rp. {{ number_format($motor->harga_sewa, 2, ',', '.') }}</td>
                     <td>{{ $motor->transmisi }}</td>
-                    <td>{{ $motor->status }}</td>
+                    <td>{{ $motor->jumlah }}</td>
                     <td>
                         <a href="{{ route('admin.editmotor', $motor->id) }}" class="btn">
                             <img src="{{ asset('assets/img/edit.png') }}" alt="Edit" style="width: 28px; height: 28px;">
@@ -78,8 +76,8 @@
                         <form action="{{ route('admin.deletemotor', $motor->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus motor ini?')">
-                                <img src="{{ asset('assets/img/delete.png') }}" alt="Delete" style="width: 28px; height: 28px;">
+                            <button type="submit" class="btn" onclick="return confirm('Yakin ingin menghapus motor ini?')">
+                                <img src="{{ asset('assets/img/trash.png') }}" alt="Delete" style="width: 28px; height: 28px;">
                             </button>
                         </form>
                     </td>

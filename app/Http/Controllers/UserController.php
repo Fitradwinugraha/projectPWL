@@ -12,16 +12,21 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Ambil semua data motor dengan status 'tersedia'
-        $motors = Motor::where('status', 'tersedia')->get();
-        
+        $motors = Motor::all();
         // Kirim data motor ke view home
         return view('user.home', compact('motors'));
     }
 
-    public function transaksi()
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function transaksi($id)
     {   
-        return view('user.transaksi');
+        // Ambil detail motor berdasarkan ID
+        $motor = Motor::findOrFail($id);
+        
+        // Kirim data motor ke view transaksi
+        return view('user.transaksi', compact('motor'));
     }
 
     public function profile()
@@ -48,12 +53,19 @@ class UserController extends Controller
         $user->alamat = $request->alamat;
         $user->deskripsi = $request->deskripsi;
 
+        // Simpan foto jika ada
+        if ($request->hasFile('foto')) {
+            $path = $request->file('foto')->store('uploads', 'public');
+            $user->foto = $path;
+        }
+
+        $user->save();
+
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
 
-
     /**
-     * Show the form for creating a new resource.
+     * Show the form for editing the specified resource.
      */
     public function create()
     {
@@ -99,8 +111,4 @@ class UserController extends Controller
     {
         //
     }
-
-    
 }
-
-
