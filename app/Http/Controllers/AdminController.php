@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Motor;
 
+
 class AdminController extends Controller
 {
     public function dashboardAdmin()
@@ -28,6 +29,7 @@ class AdminController extends Controller
             'foto_motor' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'harga_sewa' => 'required|numeric',
             'transmisi' => 'required|in:manual,matic',
+            'deskripsi' => 'required|string',
             'jumlah' => 'required|integer',
         ]);
 
@@ -45,6 +47,7 @@ class AdminController extends Controller
             'foto_motor' => $filename,
             'harga_sewa' => $request->harga_sewa,
             'transmisi' => $request->transmisi,
+            'deskripsi' => $request->deskripsi,
             'jumlah' => $request->jumlah,
         ]);
 
@@ -75,6 +78,7 @@ class AdminController extends Controller
             'foto_motor' => 'image|mimes:jpeg,png,jpg|max:2048',
             'harga_sewa' => 'required|numeric',
             'transmisi' => 'required|in:manual,matic',
+            'deskripsi' => 'required|string',
             'jumlah' => 'required|integer',
         ]);
 
@@ -89,6 +93,7 @@ class AdminController extends Controller
             'merek_motor' => $request->merek_motor,
             'harga_sewa' => $request->harga_sewa,
             'transmisi' => $request->transmisi,
+            'deskripsi' => $request->deskripsi,
             'jumlah' => $request->jumlah,
         ]);
 
@@ -101,5 +106,10 @@ class AdminController extends Controller
         $motor->delete();
 
         return redirect()->route('admin.motor')->with('success', 'Motor berhasil dihapus.');
+    }
+    public function showTransaksiadm()
+    {
+        $title = 'Transaksi';
+        return view('admin.transaksiadm', compact('title'));
     }
 }

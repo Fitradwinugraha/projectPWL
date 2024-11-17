@@ -78,6 +78,10 @@
                     <option value="matic">Matic</option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label for="deskripsi" class="form-label">Deskripsi</label>
+                <textarea id="deskripsi" name="deskripsi" rows="4" cols="50" class="form-control"></textarea>
+            </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>

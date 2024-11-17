@@ -25,9 +25,9 @@
                 <p class="flex flex-col"><span class="font-semibold w-40 mb-2">Harga/unit (1 hari): </span> <span>Rp {{ number_format($motor->harga_sewa, 0, ',', '.') }}</span></p>
                 <p class="flex mt-4"><span class="bg-green-600 text-white px-3 py-1 rounded-full">Jumlah Unit Tersedia: {{ $motor->jumlah }}</span></p>
             </div>
-                <div class="mt-6 border-t border-gray-200 pt-4 text-center">
+                <div class="mt-6 border-t border-gray-200 pt-4 text-start">
                     <h2 class="text-2xl font-bold">Deskripsi</h2>
-                    <p class="text-1xl font-semibold">Lorem Ipsum Dolor sit amet dolor dolord sits amet</p>
+                    <p class="text-1xl font-semibold">{{ $motor->deskripsi }}</p>
                 </div>
             </div>
 

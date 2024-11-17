@@ -42,6 +42,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // Admin Routes
 Route::get('/admin/dashboard', [AdminController::class, 'dashboardadmin'])->name('admin.dashboard');
 Route::get('/admin/motor', [AdminController::class, 'showMotor'])->name('admin.motor');
+Route::get('/admin/transaksiadm', [AdminController::class, 'showTransaksiadm'])->name('admin.transaksiadm');
 Route::get('/admin/tambahmotor', [AdminController::class, 'tambahMotor'])->name('admin.tambahmotor');
 Route::post('/admin/motor', [AdminController::class, 'storeMotor'])->name('admin.storemotor');
 Route::get('/admin/motor/edit/{id}', [AdminController::class, 'editMotor'])->name('admin.editmotor');

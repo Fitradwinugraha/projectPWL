@@ -6,7 +6,7 @@
     <p>Admin</p>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.dashboard') }}" class="nav-link">
                 <img src="{{ asset('assets/img/dashboard.png') }}" alt="Dashboard Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Dashboard
             </a>
@@ -24,7 +24,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.transaksiadm') }}" class="nav-link">
                 <img src="{{ asset('assets/img/invoice.png') }}" alt="Invoice Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Transaksi
             </a>
