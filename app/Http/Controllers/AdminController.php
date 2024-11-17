@@ -107,9 +107,11 @@ class AdminController extends Controller
 
         return redirect()->route('admin.motor')->with('success', 'Motor berhasil dihapus.');
     }
+
     public function showTransaksiadm()
     {
         $title = 'Transaksi';
-        return view('admin.transaksiadm', compact('title'));
+        $transaksi = \App\Models\Transaksi::with(['user', 'motor'])->get();
+        return view('admin.transaksiadm', compact('title', 'transaksi'));
     }
 }

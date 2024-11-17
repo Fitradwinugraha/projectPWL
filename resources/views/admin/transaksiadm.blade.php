@@ -24,7 +24,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.transaksiadm') }}" class="nav-link">
                 <img src="{{ asset('assets/img/invoice.png') }}" alt="Invoice Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Transaksi
             </a>
@@ -41,28 +41,63 @@
 @endsection
 
 @section('content')
-<div class="motor-table-container p-10 shadow-sm">
+<div class="transaksi-table-container">
     <h4>Daftar Transaksi</h4>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>No</th>
                 <th>Nama Penyewa</th>
+                <th>Nama Motor</th>
+                <th>Foto KTP</th>
                 <th>Nomor Identitas</th> 
                 <th>Nomor Telepon</th> 
                 <th>Email</th>
-                <th>Foto KTP</th>
-                <th>Tanggal Sewa</th>
+                <th>Tanggal Penyewaan</th>
                 <th>Tanggal Pengembalian</th>
+                <th>Jumlah</th>
                 <th>Total Harga</th>
                 <th>Metode Pembayaran</th>
-                <th>Bukti Pembayaran</th>
+                <th>Foto Bukti Pembayaran</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-           
+            @forelse($transaksi as $key => $item)
+            <tr>
+                <td>{{ $key + 1 }}</td>
+                <td>{{ $item->user->nama }}</td>
+                <td>{{ $item->motor->nama_motor }}</td>
+                <td>
+                    <img src="{{ asset('uploads/' . $item->user->foto_ktp) }}" alt="Foto KTP" style="width: 50px; height: 50px;">
+                </td>
+                <td>{{ $item->user->nomor_identitas }}</td>
+                <td>{{ $item->user->nomor_telepon }}</td>
+                <td>{{ $item->user->email }}</td>
+                <td>{{ $item->tanggal_penyewaan }}</td>
+                <td>{{ $item->tanggal_pengembalian }}</td>
+                <td>{{ $item->jumlah }}</td>
+                <td>Rp {{ number_format($item->total_harga, 2, ',', '.') }}</td>
+                <td>{{ strtoupper($item->metode_pembayaran) }}</td>
+                <td>
+                    <img src="{{ asset('uploads/' . $item->foto_bukti_pembayaran) }}" alt="Bukti Pembayaran" style="width: 50px; height: 50px;">
+                </td>
+                <td>
+                    <span class="badge {{ $item->status == 'pending' ? 'bg-warning' : ($item->status == 'dikonfirmasi' ? 'bg-success' : 'bg-danger') }}">
+                        {{ ucfirst($item->status) }}
+                    </span>
+                </td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-primary">Detail</a>
+                    <a href="#" class="btn btn-sm btn-danger">Hapus</a>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="15" class="text-center">Belum ada transaksi.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
