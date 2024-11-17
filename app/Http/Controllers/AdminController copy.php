@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Motor;
+use App\Models\Transaksi;
 
 
 class AdminController extends Controller
@@ -110,6 +111,7 @@ class AdminController extends Controller
     public function showTransaksiadm()
     {
         $title = 'Transaksi';
-        return view('admin.transaksiadm', compact('title'));
+        $transaksi = Transaksi::all(); 
+        return view('admin.transaksiadm', compact('title','transaksi'));
     }
 }

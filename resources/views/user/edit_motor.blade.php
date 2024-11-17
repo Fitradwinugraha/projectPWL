@@ -6,7 +6,7 @@
     <p>Admin</p>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a href="{{ route('admin.dashboard') }}" class="nav-link">
+            <a href="#" class="nav-link">
                 <img src="{{ asset('assets/img/dashboard.png') }}" alt="Dashboard Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Dashboard
             </a>
@@ -18,7 +18,7 @@
             </a>
         </li>
         <li class="nav-item">
-        <a href="{{ route('admin.motor') }}" class="nav-link">
+            <a href="{{ route('admin.motor') }}" class="nav-link">
                 <img src="{{ asset('assets/img/motorcycle.png') }}" alt="Motor Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Motor
             </a>
@@ -29,9 +29,8 @@
                 Transaksi
             </a>
         </li>
-        
         <li class="nav-item2">
-        <a href="#" class="nav-link">
+            <a href="#" class="nav-link">
                 <img src="{{ asset('assets/img/logout.png') }}" alt="Logout Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Logout
             </a>
@@ -40,52 +39,56 @@
 </div>
 @endsection
 
-
 @section('content')
 <div class="container">
     <div class="form-container">
-        <form action="{{ route('admin.storemotor') }}" method="POST" enctype="multipart/form-data">
-            <h4>Tambah Motor</h4>
+        <form action="{{ route('admin.updatemotor', $motor->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <h4>Edit Motor</h4>
+            
             <div class="mb-3">
                 <label for="nama_motor" class="form-label">Nama Motor</label>
-                <input type="text" class="form-control" id="nama_motor" name="nama_motor" required>
+                <input type="text" class="form-control" id="nama_motor" name="nama_motor" value="{{ $motor->nama_motor }}" required>
             </div>
             <div class="mb-3">
-                <label for="merek_motor" class="form-label">Merek Motor</label>
-                <input type="text" class="form-control" id="merek_motor" name="merek_motor" required>
+                <label for="merek_motor" class="form-label">Brand Motor</label>
+                <input type="text" class="form-control" id="merek_motor" name="merek_motor" value="{{ $motor->merek_motor }}" required>
             </div>
             <div class="mb-3">
                 <label for="tahun_pembuatan" class="form-label">Tahun Pembuatan</label>
-                <input type="number" class="form-control" id="tahun_pembuatan" name="tahun_pembuatan" required>
+                <input type="number" class="form-control" id="tahun_pembuatan" name="tahun_pembuatan" value="{{ $motor->tahun_pembuatan }}" required>
             </div>
             <div class="mb-3">
-                <label for="nomor_polisi" class="form-label">Jumlah</label>
-                <input type="text" class="form-control" id="jumlah" name="jumlah" required>
+                <label for="nomor_polisi" class="form-label">Nomor Polisi</label>
+                <input type="text" class="form-control" id="nomor_polisi" name="nomor_polisi" value="{{ $motor->nomor_polisi }}" required>
             </div>
             <div class="mb-3">
                 <label for="foto_motor" class="form-label">Foto Motor</label>
-                <input type="file" class="form-control" id="foto_motor" name="foto_motor" required>
+                <input type="file" class="form-control" id="foto_motor" name="foto_motor">
+                @if($motor->foto_motor)
+                    <img src="{{ asset('uploads/' . $motor->foto_motor) }}" alt="Foto Motor" style="width: 100px;">
+                @endif
+            </div>
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status" required>
+                    <option value="tersedia" {{ $motor->status == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                    <option value="sedang disewa" {{ $motor->status == 'sedang disewa' ? 'selected' : '' }}>Sedang Disewa</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="harga_sewa" class="form-label">Harga Sewa</label>
-                <input type="number" class="form-control" id="harga_sewa" name="harga_sewa" required>
+                <input type="number" class="form-control" id="harga_sewa" name="harga_sewa" value="{{ $motor->harga_sewa }}" required>
             </div>
             <div class="mb-3">
                 <label for="transmisi" class="form-label">Transmisi</label>
                 <select class="form-select" id="transmisi" name="transmisi" required>
-                    <option value="manual">Manual</option>
-                    <option value="matic">Matic</option>
+                    <option value="manual" {{ $motor->transmisi == 'manual' ? 'selected' : '' }}>Manual</option>
+                    <option value="matic" {{ $motor->transmisi == 'matic' ? 'selected' : '' }}>Matic</option>
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="deskripsi" class="form-label">Deskripsi</label>
-                <textarea id="deskripsi" name="deskripsi" rows="4" cols="50" class="form-control"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>
 </div>
 @endsection
-
-
