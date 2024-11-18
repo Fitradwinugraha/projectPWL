@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Transaksi;
 use App\Models\Motor;
 
 
@@ -114,4 +115,35 @@ class AdminController extends Controller
         $transaksi = \App\Models\Transaksi::with(['user', 'motor'])->get();
         return view('admin.transaksiadm', compact('title', 'transaksi'));
     }
+    public function editStatusTransaksi($id)
+    {
+        $transaksi = Transaksi::with(['user', 'motor'])->findOrFail($id);
+        $title = 'Edit Status Transaksi';
+        return view('admin.edit_status', compact('transaksi', 'title'));
+    }
+    
+    public function updateStatusTransaksi(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,dikonfirmasi,dibatalkan'
+        ]);
+    
+        $transaksi = Transaksi::findOrFail($id);
+        $oldStatus = $transaksi->status;
+    
+        $transaksi->update([
+            'status' => $request->status
+        ]);
+        if ($oldStatus == 'pending' && $request->status == 'dikonfirmasi') {
+            $motor = Motor::findOrFail($transaksi->motor_id);
+            $motor->decrement('jumlah');
+        }
+        if ($oldStatus == 'dikonfirmasi' && $request->status == 'dibatalkan') {
+            $motor = Motor::findOrFail($transaksi->motor_id);
+            $motor->increment('jumlah');
+        }
+    
+        return redirect()->route('admin.transaksiadm')->with('success', 'Status transaksi berhasil diperbarui.');
+    }
+
 }
