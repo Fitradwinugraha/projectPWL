@@ -33,8 +33,15 @@
                             <img src="https://via.placeholder.com/150" alt="Default Foto" class="w-full h-full object-cover rounded-full">
                         @endif
                     </div>
-                    <button onclick="document.getElementById('uploadInput').click()" class="text-blue-500 underline mb-4">Upload Picture</button>
-                    <input type="file" id="uploadInput" name="foto" class="hidden">
+
+                    
+                    <!-- Form for uploading new profile picture -->
+                    <form action="{{ route('profile.updateFoto') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <button type="button" onclick="document.getElementById('uploadInput').click()" class="text-blue-500 underline mb-4">Upload Picture</button>
+                        <input type="file" id="uploadInput" name="foto" class="hidden" onchange="this.form.submit()">
+                    </form>
 
 
                     <div>
@@ -44,7 +51,7 @@
                 </div>
 
                 <div class="md:w-2/3 md:pl-10">
-                    <form action="" method="">
+                    <form action="{{ route('profile.update') }}" method="POST">
                         <div class="mb-4">
                             <label class="block text-gray-700 font-semibold mb-1" for="username">Username :</label>
                             <input type="text" id="username" name="username" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="{{ Auth::user()->username }}" disabled>
@@ -69,14 +76,14 @@
                             <button type="button" onclick="toggleModal()" class="px-8 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 shadow-lg transition duration-200">
                                 Edit Profile
                             </button>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button class="px-8 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 shadow-lg transition duration-200">
-                                    Logout
-                                </button>
-                            </form>
-                        </div>
                     </form>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="px-8 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 shadow-lg transition duration-200">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,7 +93,7 @@
     <div id="editProfileModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white w-full max-w-lg p-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold text-gray-700 mb-6">Edit Profile</h2>
-            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('profile.update') }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -108,7 +115,7 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 font-semibold mb-1" for="deskripsi">Deskripsi :</label>
-                    <textarea id="deskripsi" name="deskripsi" class="w-full p-3 border border-gray-300 rounded-lg" rows="3" value="{{ Auth::user()->deskripsi }}"></textarea>
+                    <textarea id="deskripsi" name="deskripsi" class="w-full p-3 border border-gray-300 rounded-lg" rows="3">{{ Auth::user()->deskripsi }}</textarea>
                 </div>
                 <div class="flex justify-end gap-4">
                     <button type="button" onclick="toggleModal()" class="px-6 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600">Cancel</button>
