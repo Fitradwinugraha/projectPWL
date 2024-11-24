@@ -43,7 +43,7 @@
 @section('content')
 <div class="motor-table-container p-10 shadow-sm">
     <h4>Daftar Motor</h4>
-    <a href="{{ route('admin.tambahmotor') }}" class="btn btn-primary mb-3">Tambah Data</a>
+    <a href="{{ route('admin.motor.create') }}" class="btn btn-primary mb-3">Tambah Data</a>
     <table class="table table-striped">
         <thead>
             <tr>
