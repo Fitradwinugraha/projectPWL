@@ -13,10 +13,13 @@ class UserController extends Controller
      */
     public function index()
     {
+        // Ambil semua data motor dari database
         $motors = Motor::all();
-        // Kirim data motor ke view home
+    
+        // Kirim data motor ke view
         return view('user.home', compact('motors'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
