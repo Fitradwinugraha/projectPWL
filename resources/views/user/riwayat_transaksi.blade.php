@@ -7,10 +7,10 @@
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="min-height-screen">
     @include('user.navbar')
 
-    <div class="container mx-auto mt-10  p-5 bg-white rounded-lg shadow-md">
+    <div class="mx-auto mt-10  p-5 bg-white rounded-lg shadow-md">
         <h1 class="text-2xl font-bold mb-5">Riwayat Transaksi</h1>
 
         @if(session('success'))

@@ -4,16 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| Here is where you can register web routes for your application.
+| These routes are loaded by the RouteServiceProvider and all of them
+| will be assigned to the "web" middleware group. Make something great!
 |
 */
 
@@ -47,28 +46,43 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Admin Routes
-Route::get('/admin/dashboard', [AdminController::class, 'dashboardadmin'])->name('admin.dashboard');
-Route::get('/admin/motor', [AdminController::class, 'showMotor'])->name('admin.motor');
-Route::get('/admin/transaksiadm', [AdminController::class, 'showTransaksiadm'])->name('admin.transaksiadm');
+// Halaman umum (diakses oleh semua role yang login dan guest)
+Route::get('/', [UserController::class, 'index'])->name('home'); // Halaman utama
 
-// Rute untuk mengkonfirmasi transaksi
-Route::post('/admin/transaksi/confirm/{id}', [AdminController::class, 'confirmTransaksi'])->name('admin.confirmTransaksi');
+// Halaman user (hanya untuk role user)
+Route::middleware(['auth', 'checkRole:user'])->group(function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile'); // Profil user
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update'); // Update profil
+    Route::get('/riwayat-transaksi', [UserController::class, 'riwayatTransaksi'])->name('user.riwayat_transaksi'); // Riwayat transaksi
+    Route::post('/transaksi/store', [UserController::class, 'storeTransaksi'])->name('user.storeTransaksi'); // Simpan transaksi baru
+    Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])->name('transaksi');
+});
 
-// Rute untuk membatalkan transaksi
-Route::post('/admin/transaksi/cancel/{id}', [AdminController::class, 'cancelTransaksi'])->name('admin.cancelTransaksi');
+// Halaman admin (hanya untuk role admin)
+Route::middleware(['auth', 'checkRole:admin'])->group(function () {
+    // Dashboard Admin
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboardadmin'])->name('admin.dashboard');
 
-// Rute untuk mengedit status transaksi
-Route::get('/admin/transaksi/edit-status/{id}', [AdminController::class, 'editStatusTransaksi'])->name('admin.edit_status_transaksi');
-Route::post('/admin/transaksi/update-status/{id}', [AdminController::class, 'updateStatusTransaksi'])->name('admin.update_status_transaksi');
+    // Kelola Motor
+    Route::get('/admin/motor', [AdminController::class, 'showMotor'])->name('admin.motor'); // List motor
+    Route::get('/admin/tambahmotor', [AdminController::class, 'tambahMotor'])->name('admin.motor.create'); // Form tambah motor
+    Route::post('/admin/motor', [AdminController::class, 'storeMotor'])->name('admin.storemotor'); // Simpan motor baru
+    Route::get('/admin/motor/edit/{id}', [AdminController::class, 'editMotor'])->name('admin.editmotor'); // Form edit motor
+    Route::post('/admin/motor/update/{id}', [AdminController::class, 'updateMotor'])->name('admin.updatemotor'); // Update motor
+    Route::delete('/admin/motor/delete/{id}', [AdminController::class, 'deleteMotor'])->name('admin.deletemotor'); // Hapus motor
 
-Route::get('/admin/tambahmotor', [AdminController::class, 'tambahMotor'])->name('admin.tambahmotor');
-Route::post('/admin/motor', [AdminController::class, 'storeMotor'])->name('admin.storemotor');
-Route::get('/admin/motor/edit/{id}', [AdminController::class, 'editMotor'])->name('admin.editmotor');
-Route::post('/admin/motor/update/{id}', [AdminController::class, 'updateMotor'])->name('admin.updatemotor');
-Route::delete('/admin/motor/delete/{id}', [AdminController::class, 'deleteMotor'])->name('admin.deletemotor');
-Route::get('/admin/brand', [AdminController::class, 'showBrand'])->name('admin.brand');
-Route::get('/admin/tambahmerek', [AdminController::class, 'tambahMerek'])->name('admin.tambahmerek');
-Route::post('/admin/brand', [AdminController::class, 'storeMerek'])->name('admin.storemerek');
+    // Kelola Transaksi
+    Route::get('/admin/transaksiadm', [AdminController::class, 'showTransaksiadm'])->name('admin.transaksiadm'); // List transaksi admin
+    Route::post('/admin/transaksi/confirm/{id}', [AdminController::class, 'confirmTransaksi'])->name('admin.transactions.confirm'); // Konfirmasi transaksi
+    Route::post('/admin/transaksi/cancel/{id}', [AdminController::class, 'cancelTransaksi'])->name('admin.transactions.cancel'); // Batalkan transaksi
+    Route::get('/admin/transaksi/edit-status/{id}', [AdminController::class, 'editStatusTransaksi'])->name('admin.edit_status_transaksi'); // Edit status transaksi
+    Route::post('/admin/transaksi/update-status/{id}', [AdminController::class, 'updateStatusTransaksi'])->name('admin.update_status_transaksi');
+    Route::delete('/admin/transaksi/delete/{id}', [AdminController::class, 'deleteTransaksi'])->name('admin.deletetransaksi');
+
+    // Kelola Merek/Brand
+    Route::get('/admin/brand', [AdminController::class, 'showBrand'])->name('admin.brand'); // List merek
+    Route::get('/admin/tambahmerek', [AdminController::class, 'tambahMerek'])->name('admin.brand.create'); // Form tambah merek
+    Route::post('/admin/brand', [AdminController::class, 'storeMerek'])->name('admin.brand.store'); // Simpan merek baru
+});

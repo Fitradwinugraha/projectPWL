@@ -67,19 +67,26 @@ class AuthController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-
-        $credentials = [
-            'username' => $request->username,
-            'password' => $request->password
-        ];
-
+    
+        $credentials = $request->only('username', 'password');
+    
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->to('/')->with('success', 'Login successful');
+    
+            // Cek role pengguna
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.dashboard'); // Arahkan ke halaman admin
+            }
+    
+            // Default redirect untuk user biasa
+            return redirect()->route('home');
         }
-
+    
+        // Jika login gagal
         return back()->withErrors(['username' => 'Invalid credentials provided']);
     }
+    
+    
 
     
 

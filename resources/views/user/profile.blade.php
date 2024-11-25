@@ -34,8 +34,6 @@
                         @endif
                     </div>
 
-                    
-                    <!-- Form for uploading new profile picture -->
                     <form action="{{ route('profile.updateFoto') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -43,11 +41,10 @@
                         <input type="file" id="uploadInput" name="foto" class="hidden" onchange="this.form.submit()">
                     </form>
 
-
                     <div>
-                        <h2 class="mb-2 text-center text-gray-800">Riwayat Penyewaan</h2>
-                        <p class="text-gray-700 mt-2 text-sm italic">Tidak ada riwayat penyewaan</p>
-                    </div>
+                        <h2 class="mb-2 text-center text-gray-800">SwiftBike</h2>
+                        <p class="text-gray-700 mt-2 text-sm italic">Sewa Motor PWL</p>
+                    </div>  
                 </div>
 
                 <div class="md:w-2/3 md:pl-10">

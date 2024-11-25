@@ -79,8 +79,17 @@
                     </span>
                 </td>
                 <td>
+                    <!-- Edit Status -->
                     <a href="{{ route('admin.edit_status_transaksi', $item->id) }}" class="btn btn-sm btn-warning">Edit Status</a>
+
+                    <!-- Tombol Hapus -->
+                    <form action="{{ route('admin.deletetransaksi', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
                 </td>
+
             </tr>
             @empty
             <tr>

@@ -15,13 +15,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Ambil semua data motor dengan status 'tersedia'
-        // $motors = Motor::where('status', 'tersedia')->get();
         $motors = Motor::all();
-        
         // Kirim data motor ke view home
         return view('user.home', compact('motors'));
     }
+    
 
     /**
      * Show the form for creating a new resource.

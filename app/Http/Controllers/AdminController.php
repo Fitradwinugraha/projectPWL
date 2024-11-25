@@ -146,4 +146,17 @@ class AdminController extends Controller
         return redirect()->route('admin.transaksiadm')->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
+    public function deleteTransaksi($id)
+    {
+        // Cari transaksi berdasarkan ID
+        $transaksi = Transaksi::findOrFail($id);
+
+        // Hapus transaksi
+        $transaksi->delete();
+
+        // Redirect ke halaman transaksi admin dengan pesan sukses
+        return redirect()->route('admin.transaksiadm')->with('success', 'Transaksi berhasil dihapus.');
+    }
+
+
 }
