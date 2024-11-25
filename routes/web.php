@@ -67,3 +67,5 @@ Route::delete('/admin/motor/delete/{id}', [AdminController::class, 'deleteMotor'
 Route::get('/admin/brand', [AdminController::class, 'showBrand'])->name('admin.brand');
 Route::get('/admin/tambahmerek', [AdminController::class, 'tambahMerek'])->name('admin.tambahmerek');
 Route::post('/admin/brand', [AdminController::class, 'storeMerek'])->name('admin.storemerek');
+
+Route::get('/admin/kelola-akun', [AdminController::class, 'showKelolaAkun'])->name('admin.kelola-akun');

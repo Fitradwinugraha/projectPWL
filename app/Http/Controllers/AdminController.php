@@ -146,4 +146,10 @@ class AdminController extends Controller
         return redirect()->route('admin.transaksiadm')->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
+    public function showKelolaAkun()
+    {
+        $title = 'Kelola Akun';
+        $transaksi = \App\Models\Transaksi::with(['user', 'motor'])->get();
+        return view('admin.kelola-akun', compact('title', 'transaksi'));
+    }
 }
