@@ -146,6 +146,12 @@ class AdminController extends Controller
         return redirect()->route('admin.transaksiadm')->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
+    public function showKelolaAkun()
+    {
+        $title = 'Kelola Akun';
+        $transaksi = \App\Models\Transaksi::with(['user', 'motor'])->get();
+        return view('admin.kelola-akun', compact('title', 'transaksi'));
+    }
     public function deleteTransaksi($id)
     {
         // Cari transaksi berdasarkan ID
@@ -157,6 +163,5 @@ class AdminController extends Controller
         // Redirect ke halaman transaksi admin dengan pesan sukses
         return redirect()->route('admin.transaksiadm')->with('success', 'Transaksi berhasil dihapus.');
     }
-
 
 }
