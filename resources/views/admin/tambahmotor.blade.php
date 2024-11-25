@@ -24,7 +24,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.transaksiadm') }}" class="nav-link">
                 <img src="{{ asset('assets/img/invoice.png') }}" alt="Invoice Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Transaksi
             </a>
@@ -60,8 +60,8 @@
                 <input type="number" class="form-control" id="tahun_pembuatan" name="tahun_pembuatan" required>
             </div>
             <div class="mb-3">
-                <label for="nomor_polisi" class="form-label">Nomor Polisi</label>
-                <input type="text" class="form-control" id="nomor_polisi" name="nomor_polisi" required>
+                <label for="nomor_polisi" class="form-label">Jumlah</label>
+                <input type="text" class="form-control" id="jumlah" name="jumlah" required>
             </div>
             <div class="mb-3">
                 <label for="foto_motor" class="form-label">Foto Motor</label>
@@ -77,6 +77,10 @@
                     <option value="manual">Manual</option>
                     <option value="matic">Matic</option>
                 </select>
+            </div>
+            <div class="mb-3">
+                <label for="deskripsi" class="form-label">Deskripsi</label>
+                <textarea id="deskripsi" name="deskripsi" rows="4" cols="50" class="form-control"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>

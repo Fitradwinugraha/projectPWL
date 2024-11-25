@@ -29,6 +29,15 @@
     width: 100%;
 }
 
+.transaksi-table-container {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    width: 100%;
+}
+
 .container {
     margin-top: 90px;
     display: flex;
@@ -126,5 +135,37 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: -57px;
     width: 100%;
+}
+
+.detail-edit {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f9f9f9; /* Light background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.detail-edit h4 {
+    margin-bottom: 15px;
+    color: #414F91; /* Heading color */
+}
+
+.detail-item {
+    display: start;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 2px solid #e0e0e0; /* Divider between items */
+}
+
+.detail-item:last-child {
+    border-bottom: none; /* Remove border from last item */
+}
+
+.detail-item strong {
+    color: #333; /* Strong text color */
+}
+
+.detail-item span {
+    color: #555; /* Normal text color */
 }
 

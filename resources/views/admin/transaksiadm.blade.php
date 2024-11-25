@@ -41,50 +41,52 @@
 @endsection
 
 @section('content')
-<div class="motor-table-container p-10 shadow-sm">
-    <h4>Daftar Motor</h4>
-    <a href="{{ route('admin.tambahmotor') }}" class="btn btn-primary mb-3">Tambah Data</a>
+<div class="transaksi-table-container">
+    <h4>Daftar Transaksi</h4>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>No</th>
+                <th>Nama Penyewa</th>
                 <th>Nama Motor</th>
-                <th>Brand</th> 
-                <th>Tahun Pembuatan</th> 
-                <th>Foto</th>
-                <th>Harga Sewa</th>
-                <th>Transmisi</th>
-                <th>Deskripsi</th>
+                <th>Nomor Telepon</th> 
+                <th>Email</th>
+                <th>Tanggal Penyewaan</th>
+                <th>Tanggal Pengembalian</th>
                 <th>Jumlah</th>
+                <th>Total Harga</th>
+                <th>Metode Pembayaran</th>
+                <th>Status</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($motors as $index => $motor)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $motor->nama_motor }}</td>
-                    <td>{{ $motor->merek_motor }}</td>
-                    <td>{{ $motor->tahun_pembuatan }}</td>
-                    <td><img src="{{ asset('uploads/' . $motor->foto_motor) }}" alt="Foto Motor" style="width: 150px; height: auto;"></td>
-                    <td>Rp. {{ number_format($motor->harga_sewa, 2, ',', '.') }}</td>
-                    <td>{{ $motor->transmisi }}</td>
-                    <td>{{ $motor->deskripsi }}</td>
-                    <td>{{ $motor->jumlah }}</td>
-                    <td>
-                        <a href="{{ route('admin.editmotor', $motor->id) }}" class="btn">
-                            <img src="{{ asset('assets/img/edit.png') }}" alt="Edit" style="width: 28px; height: 28px;">
-                        </a>
-                        <form action="{{ route('admin.deletemotor', $motor->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn" onclick="return confirm('Yakin ingin menghapus motor ini?')">
-                                <img src="{{ asset('assets/img/trash.png') }}" alt="Delete" style="width: 28px; height: 28px;">
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+            @forelse($transaksi as $key => $item)
+            <tr>
+                <td>{{ $key + 1 }}</td>
+                <td>{{ $item->user->nama }}</td>
+                <td>{{ $item->motor->nama_motor }}</td>
+                <td>{{ $item->no_telepon }}</td>
+                <td>{{ $item->user->email }}</td>
+                <td>{{ $item->tanggal_sewa }}</td>
+                <td>{{ $item->tanggal_kembali }}</td>
+                <td>{{ $item->jumlah }}</td>
+                <td>Rp {{ number_format($item->total_harga, 2, ',', '.') }}</td>
+                <td>{{ strtoupper($item->metode_pembayaran) }}</td>
+                <td>
+                    <span class="badge {{ $item->status == 'pending' ? 'bg-warning' : ($item->status == 'dikonfirmasi' ? 'bg-success' : 'bg-danger') }}">
+                        {{ ucfirst($item->status) }}
+                    </span>
+                </td>
+                <td>
+                    <a href="{{ route('admin.edit_status_transaksi', $item->id) }}" class="btn btn-sm btn-warning">Edit Status</a>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="15" class="text-center">Belum ada transaksi.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Transaksi;
 use App\Models\Motor;
+
 
 class AdminController extends Controller
 {
@@ -25,10 +27,11 @@ class AdminController extends Controller
             'nama_motor' => 'required|string|max:255',
             'merek_motor' => 'required|string|max:255',
             'tahun_pembuatan' => 'required|integer',
-            'nomor_polisi' => 'required|string|unique:motor,nomor_polisi',
             'foto_motor' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'harga_sewa' => 'required|numeric',
             'transmisi' => 'required|in:manual,matic',
+            'deskripsi' => 'required|string',
+            'jumlah' => 'required|integer',
         ]);
 
         // Simpan foto motor
@@ -42,11 +45,11 @@ class AdminController extends Controller
             'nama_motor' => $request->nama_motor,
             'merek_motor' => $request->merek_motor,
             'tahun_pembuatan' => $request->tahun_pembuatan,
-            'nomor_polisi' => $request->nomor_polisi,
             'foto_motor' => $filename,
             'harga_sewa' => $request->harga_sewa,
             'transmisi' => $request->transmisi,
-            'status' => 'tersedia', // Default value for status
+            'deskripsi' => $request->deskripsi,
+            'jumlah' => $request->jumlah,
         ]);
 
         return redirect()->route('admin.motor')->with('success', 'Motor berhasil ditambahkan.');
@@ -73,11 +76,11 @@ class AdminController extends Controller
         $request->validate([
             'nama_motor' => 'required|string|max:255',
             'merek_motor' => 'required|string|max:255',
-            'nomor_polisi' => 'required|string|unique:motor,nomor_polisi,' . $id,
             'foto_motor' => 'image|mimes:jpeg,png,jpg|max:2048',
             'harga_sewa' => 'required|numeric',
             'transmisi' => 'required|in:manual,matic',
-            'status' => 'required|in:tersedia,sedang disewa',
+            'deskripsi' => 'required|string',
+            'jumlah' => 'required|integer',
         ]);
 
         if ($request->hasFile('foto_motor')) {
@@ -89,10 +92,10 @@ class AdminController extends Controller
         $motor->update([
             'nama_motor' => $request->nama_motor,
             'merek_motor' => $request->merek_motor,
-            'nomor_polisi' => $request->nomor_polisi,
             'harga_sewa' => $request->harga_sewa,
             'transmisi' => $request->transmisi,
-            'status' => $request->status,
+            'deskripsi' => $request->deskripsi,
+            'jumlah' => $request->jumlah,
         ]);
 
         return redirect()->route('admin.motor')->with('success', 'Motor berhasil diperbarui.');
@@ -105,4 +108,42 @@ class AdminController extends Controller
 
         return redirect()->route('admin.motor')->with('success', 'Motor berhasil dihapus.');
     }
+
+    public function showTransaksiadm()
+    {
+        $title = 'Transaksi';
+        $transaksi = \App\Models\Transaksi::with(['user', 'motor'])->get();
+        return view('admin.transaksiadm', compact('title', 'transaksi'));
+    }
+    public function editStatusTransaksi($id)
+    {
+        $transaksi = Transaksi::with(['user', 'motor'])->findOrFail($id);
+        $title = 'Edit Status Transaksi';
+        return view('admin.edit_status', compact('transaksi', 'title'));
+    }
+    
+    public function updateStatusTransaksi(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,dikonfirmasi,dibatalkan'
+        ]);
+    
+        $transaksi = Transaksi::findOrFail($id);
+        $oldStatus = $transaksi->status;
+    
+        $transaksi->update([
+            'status' => $request->status
+        ]);
+        if ($oldStatus == 'pending' && $request->status == 'dikonfirmasi') {
+            $motor = Motor::findOrFail($transaksi->motor_id);
+            $motor->decrement('jumlah');
+        }
+        if ($oldStatus == 'dikonfirmasi' && $request->status == 'dibatalkan') {
+            $motor = Motor::findOrFail($transaksi->motor_id);
+            $motor->increment('jumlah');
+        }
+    
+        return redirect()->route('admin.transaksiadm')->with('success', 'Status transaksi berhasil diperbarui.');
+    }
+
 }

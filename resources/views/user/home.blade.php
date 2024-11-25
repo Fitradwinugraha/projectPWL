@@ -76,12 +76,13 @@
                 <div class="card bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
                     <img src="{{ asset('uploads/' . $motor->foto_motor) }}" alt="{{ $motor->nama_motor }}" class="w-full h-48 object-cover" style="width: 300px; height: 300;">
                     <div class="p-4">
-                        <h3 class="text-lg font-bold text-gray-900">{{ $motor->nama_motor }}</h3>
+                        <h3 class="text-lg font-bold text-gray-900">{{ $motor->nama_motor }} {{ $motor->tahun_pembuatan }}</h3>
                         <p class="text-gray-700">{{ $motor->merek_motor }}</p>
+                        <p class="text-red-700">Unit Tersedia: {{ $motor->jumlah }}</p>
                         <p class="text-green-500 font-semibold mt-2">Rp {{ number_format($motor->harga_sewa, 0, ',', '.') }}</p>
                     </div>
                     <div class="flex items-center justify-center py-4">
-                        <button onclick="window.location.href='/transaksi'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
+                    <button onclick="window.location.href='{{ route('transaksi', $motor->id) }}'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
                         <a href="https://wa.me/6281375839812" target="_blank">
                             <i class="fab fa-whatsapp text-2xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 border rounded inline-block ml-2"></i>
                         </a>

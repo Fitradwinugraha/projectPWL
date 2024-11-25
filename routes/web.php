@@ -20,11 +20,20 @@ use Illuminate\Support\Facades\Auth;
 // User Routes
 Route::get('/', [UserController::class, 'index']);
 
-Route::get('/transaksi', [UserController::class, 'transaksi'])->middleware('auth');
-Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
+// Route untuk transaksi dengan parameter ID motor
+Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])
+    ->name('transaksi')
+    ->middleware('auth');
 
+Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
 Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
 Route::put('/profile/update-foto', [UserController::class, 'updateFoto'])->name('profile.updateFoto');
+
+// Rute untuk menyimpan transaksi
+Route::post('/transaksi/store', [UserController::class, 'storeTransaksi'])->name('user.storeTransaksi')->middleware('auth');
+
+// Rute untuk melihat riwayat transaksi
+Route::get('/riwayat-transaksi', [UserController::class, 'riwayatTransaksi'])->name('user.riwayat_transaksi')->middleware('auth');
 
 // Auth Routes
 Route::middleware('guest')->group(function () {
@@ -40,10 +49,21 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
 // Admin Routes
 Route::get('/admin/dashboard', [AdminController::class, 'dashboardadmin'])->name('admin.dashboard');
 Route::get('/admin/motor', [AdminController::class, 'showMotor'])->name('admin.motor');
+Route::get('/admin/transaksiadm', [AdminController::class, 'showTransaksiadm'])->name('admin.transaksiadm');
+
+// Rute untuk mengkonfirmasi transaksi
+Route::post('/admin/transaksi/confirm/{id}', [AdminController::class, 'confirmTransaksi'])->name('admin.confirmTransaksi');
+
+// Rute untuk membatalkan transaksi
+Route::post('/admin/transaksi/cancel/{id}', [AdminController::class, 'cancelTransaksi'])->name('admin.cancelTransaksi');
+
+// Rute untuk mengedit status transaksi
+Route::get('/admin/transaksi/edit-status/{id}', [AdminController::class, 'editStatusTransaksi'])->name('admin.edit_status_transaksi');
+Route::post('/admin/transaksi/update-status/{id}', [AdminController::class, 'updateStatusTransaksi'])->name('admin.update_status_transaksi');
+
 Route::get('/admin/tambahmotor', [AdminController::class, 'tambahMotor'])->name('admin.tambahmotor');
 Route::post('/admin/motor', [AdminController::class, 'storeMotor'])->name('admin.storemotor');
 Route::get('/admin/motor/edit/{id}', [AdminController::class, 'editMotor'])->name('admin.editmotor');
