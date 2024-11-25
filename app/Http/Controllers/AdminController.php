@@ -152,4 +152,16 @@ class AdminController extends Controller
         $transaksi = \App\Models\Transaksi::with(['user', 'motor'])->get();
         return view('admin.kelola-akun', compact('title', 'transaksi'));
     }
+    public function deleteTransaksi($id)
+    {
+        // Cari transaksi berdasarkan ID
+        $transaksi = Transaksi::findOrFail($id);
+
+        // Hapus transaksi
+        $transaksi->delete();
+
+        // Redirect ke halaman transaksi admin dengan pesan sukses
+        return redirect()->route('admin.transaksiadm')->with('success', 'Transaksi berhasil dihapus.');
+    }
+
 }

@@ -66,19 +66,19 @@ class AuthController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-
-        $credentials = [
-            'username' => $request->username,
-            'password' => $request->password
-        ];
-
+    
+        $credentials = $request->only('username', 'password');
+    
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->to('/')->with('success', 'Login successful');
+    
+            // Redirect ke halaman home
+            return redirect()->route('home');
         }
-
+    
         return back()->withErrors(['username' => 'Invalid credentials provided']);
     }
+    
 
     
 
