@@ -39,7 +39,7 @@ Route::middleware(['auth', 'checkRole:user'])->group(function () {
     Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])->name('transaksi');
 });
 
-// Halaman admin (hanya untuk role admin)
+// Halaman admin (Khusus untuk role admin)
 Route::middleware(['auth', 'checkRole:admin'])->group(function () {
     // Dashboard Admin
     Route::get('/admin/dashboard', [AdminController::class, 'dashboardadmin'])->name('admin.dashboard');
