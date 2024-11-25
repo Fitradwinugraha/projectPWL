@@ -22,6 +22,7 @@
                     <a href="/#bikes" class="block px-4 py-2 text-gray-900 hover:bg-yellow-400 transition">Honda</a>
                 </div>
             </div>
+            <a href="/riwayat-transaksi" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Riwayat Transaksi</a>
 
             @auth
             <div class="relative">
@@ -70,6 +71,7 @@
                         <a href="/#bikes" class="block px-4 py-2 text-white hover:bg-yellow-400 transition">Honda</a>
                     </div>
                 </div>
+                <a href="/riwayat-transaksi" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Riwayat Transaksi</a>
 
                 @auth
                 <div class="relative">

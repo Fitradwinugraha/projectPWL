@@ -59,6 +59,7 @@ Route::middleware(['auth', 'checkRole:admin'])->group(function () {
     Route::get('/admin/transaksi/edit-status/{id}', [AdminController::class, 'editStatusTransaksi'])->name('admin.edit_status_transaksi'); // Edit status transaksi
     Route::post('/admin/transaksi/update-status/{id}', [AdminController::class, 'updateStatusTransaksi'])->name('admin.update_status_transaksi');
     Route::delete('/admin/transaksi/delete/{id}', [AdminController::class, 'deleteTransaksi'])->name('admin.deletetransaksi');
+    Route::get('/admin/kelola-akun', [AdminController::class, 'showKelolaAkun'])->name('admin.kelola-akun');
 
     // Kelola Merek/Brand
     Route::get('/admin/brand', [AdminController::class, 'showBrand'])->name('admin.brand'); // List merek

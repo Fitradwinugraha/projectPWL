@@ -42,7 +42,7 @@
 
 @section('content')
 <div class="transaksi-table-container">
-    <h4>Daftar Transaksi</h4>
+    <h4>Kelola Akun</h4>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -50,13 +50,7 @@
                 <th>Nama Penyewa</th>
                 <th>Nama Motor</th>
                 <th>Nomor Telepon</th> 
-                <th>Email</th>
-                <th>Tanggal Penyewaan</th>
-                <th>Tanggal Pengembalian</th>
-                <th>Jumlah</th>
-                <th>Total Harga</th>
-                <th>Metode Pembayaran</th>
-                <th>Status</th>
+                <th>Status Penyewaan</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -67,33 +61,14 @@
                 <td>{{ $item->user->nama }}</td>
                 <td>{{ $item->motor->nama_motor }}</td>
                 <td>{{ $item->no_telepon }}</td>
-                <td>{{ $item->user->email }}</td>
-                <td>{{ $item->tanggal_sewa }}</td>
-                <td>{{ $item->tanggal_kembali }}</td>
-                <td>{{ $item->jumlah }}</td>
-                <td>Rp {{ number_format($item->total_harga, 2, ',', '.') }}</td>
-                <td>{{ strtoupper($item->metode_pembayaran) }}</td>
+                <td> </td>
                 <td>
-                    <span class="badge {{ $item->status == 'pending' ? 'bg-warning' : ($item->status == 'dikonfirmasi' ? 'bg-success' : 'bg-danger') }}">
-                        {{ ucfirst($item->status) }}
-                    </span>
+                    <a href="#" class="btn btn-sm btn-warning">Edit Status</a>
                 </td>
-                <td>
-                    <!-- Edit Status -->
-                    <a href="{{ route('admin.edit_status_transaksi', $item->id) }}" class="btn btn-sm btn-warning">Edit Status</a>
-
-                    <!-- Tombol Hapus -->
-                    <form action="{{ route('admin.deletetransaksi', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                    </form>
-                </td>
-
             </tr>
             @empty
             <tr>
-                <td colspan="15" class="text-center">Belum ada transaksi.</td>
+                <td colspan="15" class="text-center">Belum ada data</td>
             </tr>
             @endforelse
         </tbody>
