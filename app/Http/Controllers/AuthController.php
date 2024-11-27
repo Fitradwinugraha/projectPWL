@@ -58,7 +58,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->to('/login')->with('success', 'Account created successfully. Please login.');
+        return redirect()->route('login')->with('success', 'Account created successfully. Please login.');
     }
 
     public function storeLogin(Request $request)
@@ -73,16 +73,13 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
     
-            // Cek role pengguna
             if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.dashboard'); // Arahkan ke halaman admin
+                return redirect()->route('admin.dashboard');
             }
-    
-            // Default redirect untuk user biasa
-            return redirect()->route('home');
+
+            return redirect()->route('home')->with('success', 'Login successfully. Please Use Our Services');
         }
     
-        // Jika login gagal
         return back()->withErrors(['username' => 'Invalid credentials provided']);
     }
     

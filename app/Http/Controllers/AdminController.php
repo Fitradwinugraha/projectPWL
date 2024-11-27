@@ -125,7 +125,7 @@ class AdminController extends Controller
     public function updateStatusTransaksi(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:pending,dikonfirmasi,dibatalkan'
+            'status' => 'required|in:pending,dikonfirmasi,dibatalkan,selesai'
         ]);
     
         $transaksi = Transaksi::findOrFail($id);

@@ -18,6 +18,33 @@
         @yield('content')
 
         @include('user.footer')
+
+        @if(session('success'))
+        <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg w-80 max-w-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out">
+            <div class="flex justify-between items-center">
+                <p class="text-sm font-semibold">{{ session('success') }}</p>
+                <button onclick="closeToast()" class="text-white text-lg font-semibold">&times;</button>
+            </div>
+        </div>
+
+        <script>
+            window.onload = function() {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-0', 'pointer-events-none');
+                toast.classList.add('opacity-100', 'pointer-events-auto');
+                
+                setTimeout(function() {
+                    closeToast();
+                }, 5000);
+            };
+
+            function closeToast() {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('opacity-100', 'pointer-events-auto');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }
+        </script>
+        @endif
     </div>
 </body>
 </html>
