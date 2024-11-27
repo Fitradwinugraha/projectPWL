@@ -58,6 +58,8 @@ Route::middleware(['auth', 'checkRole:user'])->group(function () {
     Route::get('/riwayat-transaksi', [UserController::class, 'riwayatTransaksi'])->name('user.riwayat_transaksi'); // Riwayat transaksi
     Route::post('/transaksi/store', [UserController::class, 'storeTransaksi'])->name('user.storeTransaksi'); // Simpan transaksi baru
     Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])->name('transaksi');
+    Route::get('/transaksi/{id}/bayar', [UserController::class, 'formPembayaran'])->name('user.pembayaran');
+    Route::post('/transaksi/{id}/bayar', [UserController::class, 'prosesPembayaran'])->name('user.prosesPembayaran');
 });
 
 // Halaman admin (Khusus untuk role admin)

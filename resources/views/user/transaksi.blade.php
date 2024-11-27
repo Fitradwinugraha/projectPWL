@@ -43,7 +43,7 @@
 
                     <div>
                         <label for="nama" class="block font-medium text-gray-700">Nama Penyewa</label>
-                        <input type="text" name="nama" id="nama" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        <input type="text" name="nama" id="nama" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->nama }}" readonly>
                     </div>
                     <div>
                         <label for="telepon" class="block font-medium text-gray-700">Nomor Telepon</label>
@@ -51,7 +51,7 @@
                     </div>
                     <div>
                         <label for="email" class="block font-medium text-gray-700">Alamat Email</label>
-                        <input type="email" name="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        <input type="email" name="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" value="{{ Auth::user()->email }}" readonly>
                     </div>
                     <div>
                         <label for="ktp" class="block font-medium text-gray-700">Upload KTP</label>
@@ -62,15 +62,16 @@
                     <h2 class="text-2xl font-semibold mt-8 mb-4 text-blue-500">Data Transaksi</h2>
                     <div>
                         <label for="tanggal_sewa" class="block font-medium text-gray-700">Tanggal Sewa</label>
-                        <input type="datetime-local" name="tanggal_sewa" id="tanggal_sewa" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required oninput="updateTotalPrice()">
+                        <input type="datetime-local" name="tanggal_sewa" id="tanggal_sewa" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required oninput="handleTanggalSewaChange()">
                     </div>
                     <div>
                         <label for="tanggal_kembali" class="block font-medium text-gray-700">Tanggal Kembali</label>
                         <input type="datetime-local" name="tanggal_kembali" id="tanggal_kembali" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required oninput="updateTotalPrice()">
                     </div>
                     <div>
-                        <label for="total_harga" class="block font-medium text-gray-700">Total Harga</label>
-                        <input type="number" name="total_harga" id="total_harga" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required readonly>
+                        <label for="total_harga_display" class="block font-medium text-gray-700">Total Harga</label>
+                        <input type="text" id="total_harga_display" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" readonly>
+                        <input type="hidden" name="total_harga" id="total_harga" required>
                     </div>
 
                     <!-- Pembayaran -->
@@ -85,10 +86,6 @@
                             <option value="dana">Dana</option>
                         </select>
                     </div>
-                    <div>
-                        <label for="bukti_pembayaran" class="block font-medium text-gray-700">Bukti Pembayaran</label>
-                        <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
-                    </div>
 
                     <button type="submit" class="w-full mt-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200 transform hover:scale-105">
                         Pesan
@@ -102,8 +99,21 @@
     @include('user.footer')
 
     <script>
-        const hargaSewaPerHari = {{ $motor->harga_sewa }};
+        function handleTanggalSewaChange() {
+            const tanggalSewa = document.getElementById('tanggal_sewa').value;
+            const tanggalKembaliInput = document.getElementById('tanggal_kembali');
+            
+            if (!tanggalSewa) return;
+            
+            tanggalKembaliInput.min = tanggalSewa;
+            
+            if (tanggalKembaliInput.value && new Date(tanggalKembaliInput.value) <= new Date(tanggalSewa)) {
+                tanggalKembaliInput.value = '';
+            }
         
+            updateTotalPrice();
+        }
+    
         function updateTotalPrice() {
             const tanggalSewa = document.getElementById('tanggal_sewa').value;
             const tanggalKembali = document.getElementById('tanggal_kembali').value;
@@ -114,15 +124,22 @@
             const kembaliDate = new Date(tanggalKembali);
             
             const diffTime = kembaliDate - sewaDate;
-            const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24)); 
-
-            // Menambahkan satu hari jika pengembalian pada hari yang sama atau lebih dari satu hari setelah sewa
-            const totalHari = diffDays <= 0 ? 1 : diffDays + 1;
-            
-            const totalHarga = hargaSewaPerHari * totalHari;
+            const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
+        
+            const totalHari = diffDays <= 0 ? 1 : diffDays;
+        
+            const totalHarga = "{{$motor->harga_sewa }}" * totalHari;
+        
+            const formatter = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+            });
+        
+            const formattedTotalHarga = formatter.format(totalHarga);
+        
+            document.getElementById('total_harga_display').value = formattedTotalHarga;
             document.getElementById('total_harga').value = totalHarga;
-            }
-
+        }
     </script>
 </body>
 </html>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Motor;
 use App\Models\User;
 use App\Models\Transaksi;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -109,19 +110,11 @@ class UserController extends Controller
             'tanggal_kembali' => 'required|date|after:tanggal_sewa',
             'total_harga' => 'required|numeric',
             'metode_pembayaran' => 'required|in:bri,bni,bca,mandiri,dana',
-            'bukti_pembayaran' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
     
         // Simpan KTP
         $ktpFilename = time() . '_ktp.' . $request->ktp->extension();
         $request->ktp->move(public_path('uploads'), $ktpFilename);
-    
-        // Simpan bukti pembayaran 
-        $buktiPembayaranFilename = null;
-        if ($request->hasFile('bukti_pembayaran')) {
-            $buktiPembayaranFilename = time() . '_bukti.' . $request->bukti_pembayaran->extension();
-            $request->bukti_pembayaran->move(public_path('uploads'), $buktiPembayaranFilename);
-        }
     
         // Buat transaksi baru
         Transaksi::create([
@@ -132,7 +125,7 @@ class UserController extends Controller
             'jumlah' => 1, // Misalkan kita hanya sewa 1 motor
             'total_harga' => $request->total_harga,
             'metode_pembayaran' => $request->metode_pembayaran,
-            'foto_bukti_pembayaran' => $buktiPembayaranFilename,
+            // 'foto_bukti_pembayaran' => $buktiPembayaranFilename,
             'status' => 'pending', // Status awal
             'foto_ktp' => $ktpFilename, // Simpan foto KTP
             'no_telepon' => $request->telepon, // Simpan nomor telepon
@@ -142,7 +135,7 @@ class UserController extends Controller
         $motor = Motor::findOrFail($request->motor_id);
         $motor->decrement('jumlah');
     
-        return redirect()->route('user.riwayat_transaksi')->with('success', 'Transaksi berhasil dibuat.');
+        return redirect()->route('user.riwayat_transaksi')->with('success', 'Pemesanan berhasil dilakukan. Mohon menunggu konfirmasi dari kami untuk melanjutkan ke proses pembayaran!');
     }
   
     public function riwayatTransaksi()
@@ -150,6 +143,42 @@ class UserController extends Controller
         $transaksi = Transaksi::where('users_id', auth()->id())->with('motor')->get();
         return view('user.riwayat_transaksi', compact('transaksi'));
     }
+
+    // App\Http\Controllers\TransaksiController.php
+public function formPembayaran($id)
+{
+    $transaksi = Transaksi::findOrFail($id);
+
+    if ($transaksi->status != 'dikonfirmasi') {
+        return redirect()->route('user.transaksi')->with('error', 'Transaksi tidak valid.');
+    }
+
+    return view('user.pembayaran', compact('transaksi'));
+}
+
+public function prosesPembayaran(Request $request, $id)
+{
+    $request->validate([
+        'bukti_bayar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    $transaksi = Transaksi::findOrFail($id);
+
+    if ($transaksi->status != 'dikonfirmasi') {
+        return redirect()->route('user.pembayaran')->with('error', 'Transaksi tidak valid.');
+    }
+
+    $buktiBayar = $request->file('bukti_bayar')->store('bukti-bayar', 'public');
+
+    $transaksi->update([
+        'status' => 'pending',
+        'foto_bukti_pembayaran' => $buktiBayar,
+    ]);
+
+    return redirect()->route('user.riwayat_transaksi')->with('success', 'Pembayaran telah dilakukan, menunggu konfirmasi admin.');
+}
+
+
 
     public function create()
     {

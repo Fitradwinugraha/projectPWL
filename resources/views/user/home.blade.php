@@ -83,9 +83,9 @@
 
                     <!-- Tombol Pesan Sekarang -->
                     @if(auth()->check())
-                        <button onclick="window.location.href='{{ route('transaksi', $motor->id) }}'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
+                        <a href="{{ route('transaksi', $motor->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</a>
                     @else
-                        <button onclick="window.location.href='{{ route('login') }}'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</button>
+                        <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</a>
                     @endif
                 </div>
             </div>

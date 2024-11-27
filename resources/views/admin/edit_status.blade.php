@@ -143,7 +143,8 @@
         <select name="status" id="status" class="form-control">
             <option value="pending" {{ $transaksi->status == 'pending' ? 'selected' : '' }}>Pending</option>
             <option value="dikonfirmasi" {{ $transaksi->status == 'dikonfirmasi' ? 'selected' : '' }}>Dikonfirmasi</option>
-                <option value="dibatalkan" {{ $transaksi->status == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+            <option value="dibatalkan" {{ $transaksi->status == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+            <option value="selesai" {{ $transaksi->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
             </select>
         </div>
 
