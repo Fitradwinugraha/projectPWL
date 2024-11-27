@@ -1,6 +1,7 @@
 @extends('layouts.user')
 
 @section('banner')
+<div className="absolute inset-0 bg-black bg-opacity-50"></div>
     <section class="bg-[#eee] py-24">
         <div class="container mx-auto flex flex-col items-center justify-center p-6">
             <div class="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
@@ -71,25 +72,47 @@
             </h1>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="bikes">
-        @foreach($motors as $motor)
-            <div class="card bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                <img src="{{ asset('uploads/' . $motor->foto_motor) }}" alt="{{ $motor->nama_motor }}" class="w-full h-48 object-cover" style="width: 300px; height: 300;">
-                <div class="p-4">
-                    <h3 class="text-lg font-bold text-gray-900">{{ $motor->nama_motor }} {{ $motor->tahun_pembuatan }}</h3>
-                    <p class="text-gray-700">{{ $motor->merek_motor }}</p>
-                    <p class="text-red-700">Unit Tersedia: {{ $motor->jumlah }}</p>
-                    <p class="text-green-500 font-semibold mt-2">Rp {{ number_format($motor->harga_sewa, 0, ',', '.') }}</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="bikes">
+            @foreach($motors as $motor)
+                <div class="card bg-white shadow-lg rounded-lg overflow-hidden p-6 group">
 
-                    <!-- Tombol Pesan Sekarang -->
-                    @if(auth()->check())
-                        <a href="{{ route('transaksi', $motor->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</a>
-                    @else
-                        <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 border rounded inline-block">Pesan Sekarang</a>
-                    @endif
+                    <div class="relative overflow-hidden rounded-lg mb-4">
+                        <img src="{{ asset('uploads/' . $motor->foto_motor) }}" alt="{{ $motor->nama_motor }}" 
+                            class="w-full h-60 object-cover transition-transform duration-300 group-hover:scale-125">
+                    </div>
+                    
+                    <div class="p-4">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $motor->nama_motor }} ({{ $motor->tahun_pembuatan }})</h3>
+                        <p class="text-gray-600 text-sm mb-2">Merek: <span class="font-semibold">{{ $motor->merek_motor }}</span></p>
+                        <p class="text-red-600 font-semibold text-sm mb-4">Unit Tersedia: <strong>{{ $motor->jumlah }}</strong></p>
+                        <p class="text-green-500 font-bold text-lg">Rp {{ number_format($motor->harga_sewa, 0, ',', '.') }} / hari</p>
+                        
+                        <div class="mt-6 flex justify-between">
+                            @if(auth()->check())
+                                <a href="{{ route('transaksi', $motor->id) }}" 
+                                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg text-center transition-colors duration-200 flex items-center justify-center w-full sm:w-auto">
+                                <i class="fas fa-shopping-cart mr-2"></i> Pesan Sekarang
+                                </a>
+                            @else
+                                <a href="{{ route('login') }}" 
+                                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg text-center transition-colors duration-200 flex items-center justify-center w-full sm:w-auto">
+                                <i class="fas fa-shopping-cart mr-2"></i> Pesan Sekarang
+                                </a>
+                            @endif
+
+ 
+                            <a href="https://wa.me/62{{ substr($motor->no_telepon ?? '081375839812', 1) }}?text=Halo,%20saya%20ingin%20menyewa%20motor%20{{ urlencode($motor->nama_motor) }}."
+                            class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg text-center transition-colors duration-200 flex items-center justify-center w-full sm:w-auto"
+                            target="_blank">
+                            <i class="fab fa-whatsapp mr-2"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
+
+
 
         </div>
     </section>

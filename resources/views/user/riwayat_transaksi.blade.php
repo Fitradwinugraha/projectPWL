@@ -130,13 +130,13 @@
 
                             <div class="mt-6">
                                 <p class="text-gray-700 font-medium">Foto KTP:</p>
-                                <img src="{{ asset('uploads/' . $item->foto_ktp) }}" alt="Foto KTP" class="w-full mt-3 rounded-lg shadow-lg hover:scale-105 transform transition duration-300">
+                                <img src="{{ asset('uploads/' . $item->foto_ktp) }}" alt="Foto KTP" class="w-full mt-3 rounded-lg shadow-lg">
                             </div>
 
                             @if($item->foto_bukti_pembayaran)
                                 <div class="mt-6">
                                     <p class="text-gray-700 font-medium">Bukti Pembayaran:</p>
-                                    <img src="{{ asset('storage/' . $item->foto_bukti_pembayaran) }}" alt="Bukti Pembayaran" class="w-full mt-3 rounded-lg shadow-lg hover:scale-105 transform transition duration-300">
+                                    <img src="{{ asset('storage/' . $item->foto_bukti_pembayaran) }}" alt="Bukti Pembayaran" class="w-full mt-3 rounded-lg shadow-lg">
                                 </div>
                             @endif
                         </div>
