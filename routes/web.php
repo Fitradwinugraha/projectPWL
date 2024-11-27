@@ -16,15 +16,36 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// Rute untuk autentikasi (guest)
-Route::middleware(['guest'])->group(function () {
-    Route::get('/login', [AuthController::class, 'login'])->name('login'); // Form login
-    Route::post('/login', [AuthController::class, 'storeLogin'])->name('login.store'); // Proses login
-    Route::get('/register', [AuthController::class, 'register'])->name('register'); // Form registrasi
-    Route::post('/register', [AuthController::class, 'storeRegister'])->name('register.store'); // Proses registrasi
+// User Routes
+Route::get('/', [UserController::class, 'index']);
+
+// Route untuk transaksi dengan parameter ID motor
+Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])
+    ->name('transaksi')
+    ->middleware('auth');
+
+Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
+Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+Route::put('/profile/update-foto', [UserController::class, 'updateFoto'])->name('profile.updateFoto');
+
+// Rute untuk menyimpan transaksi
+Route::post('/transaksi/store', [UserController::class, 'storeTransaksi'])->name('user.storeTransaksi')->middleware('auth');
+
+// Rute untuk melihat riwayat transaksi
+Route::get('/riwayat-transaksi', [UserController::class, 'riwayatTransaksi'])->name('user.riwayat_transaksi')->middleware('auth');
+
+// Auth Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', [AuthController::class, 'storeLogin'])->name('login');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'storeRegister'])->name('register');
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
-// Rute untuk logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Halaman umum (diakses oleh semua role yang login dan guest)

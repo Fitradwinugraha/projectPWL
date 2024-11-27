@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Motor;
+use App\Models\User;
 use App\Models\Transaksi;
 
 class UserController extends Controller
@@ -13,10 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Ambil semua data motor dari database
         $motors = Motor::all();
-    
-        // Kirim data motor ke view
+        // Kirim data motor ke view home
         return view('user.home', compact('motors'));
     }
     
@@ -37,36 +37,66 @@ class UserController extends Controller
     {
         return view('user.profile');
     }
+
+    public $user;
+
+    public function __construct()
+    {
+        $this->user = new User();
+    }
     
     public function updateProfile(Request $request)
     {
-        // Validasi input
+        $user = auth()->user();
+
         $request->validate([
             'username' => 'required|string|max:255',
             'nama' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'alamat' => 'required|string',
             'deskripsi' => 'required|string',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $user = auth()->user();
-        $user->username = $request->username;
-        $user->nama = $request->nama;
-        $user->email = $request->email;
-        $user->alamat = $request->alamat;
-        $user->deskripsi = $request->deskripsi;
-
-        // Simpan foto jika ada
         if ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('uploads', 'public');
-            $user->foto = $path;
+            $filename = time() . '.' . $request->foto->extension();
+            $request->foto->move(public_path('uploads'), $filename);
+            $user->foto = $filename;
         }
 
+        $user = User::find(auth()->id());
+        $user->fill([
+            'username' => $request->username,
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'alamat' => $request->alamat,
+            'deskripsi' => $request->deskripsi,
+        ]);
         $user->save();
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function updateFoto(Request $request)
+    {
+        $request->validate(['foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048']);
+
+        if ($request->file('foto')) {
+            $path = $request->file('foto')->store('user-profile', 'public');
+
+            // $user = auth()->user();
+            $user = User::find(auth()->id());
+            $user->foto = $path;
+            $user->save();
+        }
+
+        return redirect()->back()->with('success', 'Foto berhasil diperbarui!');
+    }
+
     public function storeTransaksi(Request $request)
     {
         $request->validate([
@@ -121,9 +151,6 @@ class UserController extends Controller
         return view('user.riwayat_transaksi', compact('transaksi'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function create()
     {
         //

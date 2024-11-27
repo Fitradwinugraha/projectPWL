@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In</title>
+    <title>SwiftBike | Sign In</title>
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -31,8 +31,10 @@
                         <label for="password" class="sr-only">Password</label>
                         <input type="password" id="password" name="password" placeholder="Password" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-green-500" required>
                     </div>
-                    <div class="text-right text-sm text-green-500 hover:underline cursor-pointer">
-                        Forgot your password?
+                    <div class="text-right text-sm text-green-500 hover:underline">
+                        <a href="{{ route('password.request') }}">
+                            Forgot your password?
+                        </a>
                     </div>
                     <button type="submit" class="w-full bg-teal-400 text-white font-semibold py-3 rounded-full">Sign In</button>
                 </form>

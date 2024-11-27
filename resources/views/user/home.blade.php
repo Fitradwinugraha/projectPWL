@@ -3,9 +3,6 @@
 @section('banner')
     <section class="bg-[#eee] py-24">
         <div class="container mx-auto flex flex-col items-center justify-center p-6">
-            <!-- <div class="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
-                <img src="https://via.placeholder.com/300" alt="logo-himakom" class="max-w-full h-auto" />
-            </div> -->
             <div class="w-full md:w-1/2 flex justify-center mb-6 md:mb-0">
                 <img src="{{ asset('assets/img/logos.png') }}" alt="logo" class="max-w-full h-auto" />
             </div>
