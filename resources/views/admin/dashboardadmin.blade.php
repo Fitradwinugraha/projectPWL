@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.kelola-akun') }}" class="nav-link">
                 <img src="{{ asset('assets/img/user.png') }}" alt="User Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Kelola Akun
             </a>
@@ -31,10 +31,13 @@
         </li>
         
         <li class="nav-item2">
-        <a href="#" class="nav-link">
-                <img src="{{ asset('assets/img/logout.png') }}" alt="Logout Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
-                Logout
-            </a>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="nav-link">
+                    <img src="{{ asset('assets/img/logout.png') }}" alt="Logout Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;" alt="logout icon">
+                    Logout
+                </button>
+            </form>
         </li>
     </ul>
 </div>

@@ -15,6 +15,8 @@ class Transaksi extends Model
         'users_id',
         'motor_id',
         'tanggal_sewa',
+        'no_telepon',
+        'foto_ktp',
         'tanggal_kembali',
         'jumlah',
         'total_harga',

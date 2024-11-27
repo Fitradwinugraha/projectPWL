@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.kelola-akun') }}" class="nav-link">
                 <img src="{{ asset('assets/img/user.png') }}" alt="User Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Kelola Akun
             </a>
@@ -49,8 +49,6 @@
                 <th>No</th>
                 <th>Nama Penyewa</th>
                 <th>Nama Motor</th>
-                <th>Foto KTP</th>
-                <th>Nomor Identitas</th> 
                 <th>Nomor Telepon</th> 
                 <th>Email</th>
                 <th>Tanggal Penyewaan</th>
@@ -58,7 +56,6 @@
                 <th>Jumlah</th>
                 <th>Total Harga</th>
                 <th>Metode Pembayaran</th>
-                <th>Foto Bukti Pembayaran</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
@@ -69,29 +66,30 @@
                 <td>{{ $key + 1 }}</td>
                 <td>{{ $item->user->nama }}</td>
                 <td>{{ $item->motor->nama_motor }}</td>
-                <td>
-                    <img src="{{ asset('uploads/' . $item->user->foto_ktp) }}" alt="Foto KTP" style="width: 50px; height: 50px;">
-                </td>
-                <td>{{ $item->user->nomor_identitas }}</td>
-                <td>{{ $item->user->nomor_telepon }}</td>
+                <td>{{ $item->no_telepon }}</td>
                 <td>{{ $item->user->email }}</td>
-                <td>{{ $item->tanggal_penyewaan }}</td>
-                <td>{{ $item->tanggal_pengembalian }}</td>
+                <td>{{ $item->tanggal_sewa }}</td>
+                <td>{{ $item->tanggal_kembali }}</td>
                 <td>{{ $item->jumlah }}</td>
                 <td>Rp {{ number_format($item->total_harga, 2, ',', '.') }}</td>
                 <td>{{ strtoupper($item->metode_pembayaran) }}</td>
-                <td>
-                    <img src="{{ asset('uploads/' . $item->foto_bukti_pembayaran) }}" alt="Bukti Pembayaran" style="width: 50px; height: 50px;">
-                </td>
                 <td>
                     <span class="badge {{ $item->status == 'pending' ? 'bg-warning' : ($item->status == 'dikonfirmasi' ? 'bg-success' : 'bg-danger') }}">
                         {{ ucfirst($item->status) }}
                     </span>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-primary">Detail</a>
-                    <a href="#" class="btn btn-sm btn-danger">Hapus</a>
+                    <!-- Edit Status -->
+                    <a href="{{ route('admin.edit_status_transaksi', $item->id) }}" class="btn btn-sm btn-warning">Edit Status</a>
+
+                    <!-- Tombol Hapus -->
+                    <form action="{{ route('admin.deletetransaksi', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
                 </td>
+
             </tr>
             @empty
             <tr>

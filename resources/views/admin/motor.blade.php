@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.kelola-akun') }}" class="nav-link">
                 <img src="{{ asset('assets/img/user.png') }}" alt="User Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Kelola Akun
             </a>
@@ -43,7 +43,7 @@
 @section('content')
 <div class="motor-table-container p-10 shadow-sm">
     <h4>Daftar Motor</h4>
-    <a href="{{ route('admin.tambahmotor') }}" class="btn btn-primary mb-3">Tambah Data</a>
+    <a href="{{ route('admin.motor.create') }}" class="btn btn-primary mb-3">Tambah Data</a>
     <table class="table table-striped">
         <thead>
             <tr>

@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.kelola-akun') }}" class="nav-link">
                 <img src="{{ asset('assets/img/user.png') }}" alt="User Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
                 Kelola Akun
             </a>
@@ -59,8 +59,8 @@
                 <input type="number" class="form-control" id="tahun_pembuatan" name="tahun_pembuatan" value="{{ $motor->tahun_pembuatan }}" required>
             </div>
             <div class="mb-3">
-                <label for="nomor_polisi" class="form-label">Nomor Polisi</label>
-                <input type="text" class="form-control" id="nomor_polisi" name="nomor_polisi" value="{{ $motor->nomor_polisi }}" required>
+                <label for="jumlah" class="form-label">Jumlah</label>
+                <input type="text" class="form-control" id="jumlah" name="jumlah" required>
             </div>
             <div class="mb-3">
                 <label for="foto_motor" class="form-label">Foto Motor</label>

@@ -13,15 +13,12 @@
         <div class="hidden md:flex items-center space-x-8">
             <a href="/" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Home</a>
             <a href="/#about" class="text-white hover:text-yellow-400 transition duration-300 text-lg">About</a>
-            <div class="relative">
-                <button onclick="toggleDropdown()" class="flex items-center text-white hover:text-yellow-400 transition duration-300 text-lg">
-                    Brands <i class="fas fa-chevron-down ml-2 h-4 w-2"></i>
-                </button>
-                <div id="dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-md py-2 z-50 hidden transition-all duration-300 ease-in-out">
-                    <a href="/#bikes" class="block px-4 py-2 text-gray-900 hover:bg-yellow-400 transition">Yamaha</a>
-                    <a href="/#bikes" class="block px-4 py-2 text-gray-900 hover:bg-yellow-400 transition">Honda</a>
-                </div>
-            </div>
+
+            @if(auth()->check())
+                <a href="/riwayat-transaksi" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Transaksi</a>
+            @else
+            <a href="/login" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Transaksi</a>
+            @endif
 
             @auth
             <div class="relative">
@@ -61,15 +58,6 @@
                 <img src="{{ asset('assets/img/logos.png') }}" alt="logo" class="h-15 w-auto mb-4">
                 <a href="/" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Home</a>
                 <a href="/#about" class="text-white hover:text-yellow-400 transition duration-300 text-lg">About</a>
-                <div class="">
-                    <button onclick="toggleDropdown()" class="flex items-center text-white hover:text-yellow-400 transition duration-300 text-lg">
-                        Brands <i class="fas fa-chevron-down ml-2 h-4 w-2"></i>
-                    </button>
-                    <div id="dropdown-sidebar" class="mt-2 bg-gray-700 rounded-lg py-2 hidden">
-                        <a href="/#bikes" class="block px-4 py-2 text-white hover:bg-yellow-400 transition">Yamaha</a>
-                        <a href="/#bikes" class="block px-4 py-2 text-white hover:bg-yellow-400 transition">Honda</a>
-                    </div>
-                </div>
 
                 @auth
                 <div class="relative">
@@ -119,13 +107,5 @@
         } else {
             body.classList.add('overflow-hidden');
         }
-    }
-
-    function toggleDropdown() {
-        const dropdown = document.getElementById('dropdown');
-        const dropdownSidebar = document.getElementById('dropdown-sidebar');
-        
-        dropdown.classList.toggle('hidden');
-        dropdownSidebar.classList.toggle('hidden');
     }
 </script>
