@@ -13,6 +13,7 @@
         <div class="hidden md:flex items-center space-x-8">
             <a href="/" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Home</a>
             <a href="/#about" class="text-white hover:text-yellow-400 transition duration-300 text-lg">About</a>
+            <a href="/#faq" class="text-white hover:text-yellow-400 transition duration-300 text-lg">FAQ</a>
 
             @if(auth()->check())
                 <a href="/riwayat-transaksi" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Transaksi</a>
@@ -34,9 +35,9 @@
                         <a href="/profile" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-yellow-400 transition text-sm font-medium">
                             <i class="fas fa-user mr-2"></i> Profile
                         </a>
-                        <form action="{{ route('logout') }}" method="POST" class="block">
+                        <form id="logoutForm" action="{{ route('logout') }}" method="POST" class="block">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-500 transition text-sm font-medium">
+                            <button type="button" onclick="showLogoutConfirmation()" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-500 transition text-sm font-medium">
                                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
                             </button>
                         </form>
@@ -73,9 +74,9 @@
                             <a href="/profile" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-yellow-400 transition text-sm font-medium">
                                 <i class="fas fa-user mr-2"></i> Profile
                             </a>
-                            <form action="{{ route('logout') }}" method="POST" class="block">
+                            <form id="logoutForm" action="{{ route('logout') }}" method="POST" class="block">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-500 transition text-sm font-medium">
+                                <button type="button" onclick="showLogoutConfirmation()" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-red-50 hover:text-red-500 transition text-sm font-medium">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                                 </button>
                             </form>
@@ -107,5 +108,24 @@
         } else {
             body.classList.add('overflow-hidden');
         }
+    }
+</script>
+
+<script>
+    function showLogoutConfirmation() {
+        Swal.fire({
+            title: 'Konfirmasi Logout',
+            text: 'Apakah Anda yakin ingin keluar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Logout',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logoutForm').submit();
+            }
+        });
     }
 </script>

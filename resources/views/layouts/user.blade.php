@@ -6,6 +6,8 @@
     <title>Home | SwiftBike</title>
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body>
     <div class="flex flex-col">
@@ -16,6 +18,8 @@
         @yield('about')
 
         @yield('content')
+
+        @yield('faq')
 
         @include('user.footer')
 
@@ -46,5 +50,6 @@
         </script>
         @endif
     </div>
+
 </body>
 </html>

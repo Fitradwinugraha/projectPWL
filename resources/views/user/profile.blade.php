@@ -6,6 +6,7 @@
     <title>SwiftBike | User Profile</title>
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -53,10 +54,10 @@
             <div class="bg-gray-200 h-[2px] w-full my-4"></div>
 
             <div class="flex flex-col md:flex-row">
-                <div class="bg-teal-400 md:w-1/3 flex flex-col items-center mb-8 md:mb-0 py-8 rounded">
+                <div class="bg-gradient-to-r from-teal-400 to-white shadow-md md:w-1/3 flex flex-col items-center mb-8 md:mb-0 py-8 rounded">
                     <div class="w-32 h-32 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
                         @if (auth()->user()->foto)
-                            <img src="{{ asset('storage/' . auth()->user()->foto) }}" alt="User Foto" class="w-full h-full object-cover rounded-full">
+                            <img src="{{ asset('storage/' . auth()->user()->foto) }}" alt="User Foto" class="w-auto h-full object-cover rounded-full">
                         @else
                             <img src="https://via.placeholder.com/150" alt="Default Foto" class="w-full h-full object-cover rounded-full">
                         @endif
@@ -102,10 +103,10 @@
                                 Edit Profile
                             </button>
                     </form>
-                        <form action="{{ route('logout') }}" method="POST">
+                        <form id="logoutForm" action="{{ route('logout') }}" method="POST" class="block">
                             @csrf
-                            <button class="px-8 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 shadow-lg transition duration-200">
-                                Logout
+                            <button type="button" onclick="showLogoutConfirmation()" class="px-8 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 shadow-lg transition duration-200">
+                                <i class="fas fa-sign-out-alt mr-2"></i>
                             </button>
                         </form>
                     </div>
@@ -156,6 +157,25 @@
         function toggleModal() {
             const modal = document.getElementById('editProfileModal');
             modal.classList.toggle('hidden');
+        }
+    </script>
+    
+    <script>
+        function showLogoutConfirmation() {
+            Swal.fire({
+                title: 'Konfirmasi Logout',
+                text: 'Apakah Anda yakin ingin keluar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Logout',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logoutForm').submit();
+                }
+            });
         }
     </script>
 
