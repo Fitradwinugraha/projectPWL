@@ -6,6 +6,7 @@
     <title>Pembayaran | SwiftBike</title>
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gradient-to-b from-blue-100 via-blue-50 to-blue-200 min-h-screen flex flex-col">
 
@@ -79,12 +80,12 @@
                 <p class="text-gray-600 text-center mb-6">
                     Silakan unggah bukti pembayaran Anda untuk melanjutkan proses transaksi. File berupa gambar <b>jpeg, png, jpg</b>.
                 </p>
-                <form action="{{ route('user.prosesPembayaran', $transaksi->id) }}" method="POST" enctype="multipart/form-data">
+                <form id="paymentForm" action="{{ route('user.prosesPembayaran', $transaksi->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-6">
                         <label for="fileInput" class="block text-gray-700 font-medium mb-2">Unggah Bukti</label>
                         <input type="file" name="bukti_bayar" id="fileInput" 
-                            class="block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                            class="block w-full border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700"
                             accept="image/*"
                             required>
                     </div>
@@ -92,7 +93,7 @@
                         <label class="block text-gray-700 font-medium mb-2">Preview Gambar</label>
                         <img id="imagePreview" class="w-full h-64 object-cover rounded-lg shadow-lg border" src="#" alt="Preview Gambar" style="display: none;">
                     </div>
-                    <button type="submit" 
+                    <button type="button" onclick="confirmPayment()" 
                         class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-700 transition">
                         <i class="fas fa-upload mr-2"></i> Bayar Sekarang
                     </button>
@@ -158,40 +159,40 @@
             </div>
             <div class="bg-white p-2 rounded-lg shadow-md hover:shadow-lg transition">
                 <div class="flex items-center justify-center mb-2">
-                    <img src="https://www.bni.co.id/Portals/1/BNI/Images/logo-bni-new.png" alt="bni logo" class="w-20 h-20 object-contain">
+                    <img src="https://bri.co.id/o/bri-corporate-theme/images/bri-logo.png" alt="bri logo" class="w-20 h-20 object-contain">
                 </div>
                 <div class="pb-2">
-                    <h3 class="text-xl font-semibold text-center text-gray-800">BNI</h3>
+                    <h3 class="text-xl font-semibold text-center text-gray-800">BRI</h3>
                     <p class="text-center text-gray-600 mt-2">123 - 456 - 789</p>
                     <p class="text-center text-gray-600 mt-2"><strong>a.n. </strong><i>Jhon V Nababan</i></p>
                 </div>
             </div>
             <div class="bg-white p-2 rounded-lg shadow-md hover:shadow-lg transition">
                 <div class="flex items-center justify-center mb-2">
-                    <img src="https://www.bni.co.id/Portals/1/BNI/Images/logo-bni-new.png" alt="bni logo" class="w-20 h-20 object-contain">
+                    <img src="https://karir.bca.co.id/public/assets/img/logo-color.svg" alt="bca logo" class="w-20 h-20 object-contain">
                 </div>
                 <div class="pb-2">
-                    <h3 class="text-xl font-semibold text-center text-gray-800">BNI</h3>
+                    <h3 class="text-xl font-semibold text-center text-gray-800">BCA</h3>
                     <p class="text-center text-gray-600 mt-2">123 - 456 - 789</p>
                     <p class="text-center text-gray-600 mt-2"><strong>a.n. </strong><i>Jhon V Nababan</i></p>
                 </div>
             </div>
             <div class="bg-white p-2 rounded-lg shadow-md hover:shadow-lg transition">
                 <div class="flex items-center justify-center mb-2">
-                    <img src="https://www.bni.co.id/Portals/1/BNI/Images/logo-bni-new.png" alt="bni logo" class="w-20 h-20 object-contain">
+                    <img src="https://www.bankmandiri.co.id/image/layout_set_logo?img_id=31567&t=1732295033127" alt="mandiri logo" class="w-20 h-20 object-contain">
                 </div>
                 <div class="pb-2">
-                    <h3 class="text-xl font-semibold text-center text-gray-800">BNI</h3>
+                    <h3 class="text-xl font-semibold text-center text-gray-800">Mandiri</h3>
                     <p class="text-center text-gray-600 mt-2">123 - 456 - 789</p>
                     <p class="text-center text-gray-600 mt-2"><strong>a.n. </strong><i>Jhon V Nababan</i></p>
                 </div>
             </div>
             <div class="bg-white p-2 rounded-lg shadow-md hover:shadow-lg transition">
                 <div class="flex items-center justify-center mb-2">
-                    <img src="https://www.bni.co.id/Portals/1/BNI/Images/logo-bni-new.png" alt="bni logo" class="w-20 h-20 object-contain">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/2560px-Logo_dana_blue.svg.png" alt="dana logo" class="w-20 h-20 object-contain">
                 </div>
                 <div class="pb-2">
-                    <h3 class="text-xl font-semibold text-center text-gray-800">BNI</h3>
+                    <h3 class="text-xl font-semibold text-center text-gray-800">DANA</h3>
                     <p class="text-center text-gray-600 mt-2">123 - 456 - 789</p>
                     <p class="text-center text-gray-600 mt-2"><strong>a.n. </strong><i>Jhon V Nababan</i></p>
                 </div>
@@ -216,6 +217,25 @@
                 reader.readAsDataURL(file);
             }
         });
+    </script>
+
+    <script>
+        function confirmPayment() {
+            Swal.fire({
+                title: 'Konfirmasi Pembayaran',
+                text: 'Apakah Anda yakin ingin melanjutkan pembayaran ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Lanjutkan!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('paymentForm').submit();
+                }
+            });
+        }
     </script>
 </body>
 </html>
