@@ -14,7 +14,7 @@
         <li class="nav-item">
             <a href="{{ route('admin.kelola-akun') }}" class="nav-link">
                 <img src="{{ asset('assets/img/user.png') }}" alt="User Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
-                Kelola Akun
+                Costumer
             </a>
         </li>
         <li class="nav-item">
@@ -58,10 +58,12 @@
                 <label for="tahun_pembuatan" class="form-label">Tahun Pembuatan</label>
                 <input type="number" class="form-control" id="tahun_pembuatan" name="tahun_pembuatan" value="{{ $motor->tahun_pembuatan }}" required>
             </div>
+
             <div class="mb-3">
                 <label for="jumlah" class="form-label">Jumlah</label>
-                <input type="text" class="form-control" id="jumlah" name="jumlah" required>
+                <input type="text" class="form-control" id="jumlah" name="jumlah" value="{{ $motor->jumlah }}" required>
             </div>
+
             <div class="mb-3">
                 <label for="foto_motor" class="form-label">Foto Motor</label>
                 <input type="file" class="form-control" id="foto_motor" name="foto_motor">

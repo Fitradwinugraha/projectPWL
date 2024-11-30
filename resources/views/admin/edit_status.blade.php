@@ -16,7 +16,7 @@
         <li class="nav-item">
             <a href="{{ route('admin.kelola-akun') }}" class="nav-link">
                 <img src="{{ asset('assets/img/user.png') }}" alt="User  Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
-                Kelola Akun
+                Costumer
             </a>
         </li>
         <li class="nav-item">
@@ -143,7 +143,7 @@
         <select name="status" id="status" class="form-control">
             <option value="pending" {{ $transaksi->status == 'pending' ? 'selected' : '' }}>Pending</option>
             <option value="dikonfirmasi" {{ $transaksi->status == 'dikonfirmasi' ? 'selected' : '' }}>Dikonfirmasi</option>
-            <option value="dibatalkan" {{ $transaksi->status == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+            <option value="ditolak" {{ $transaksi->status == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
             <option value="selesai" {{ $transaksi->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
             </select>
         </div>

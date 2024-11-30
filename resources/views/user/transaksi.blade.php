@@ -38,7 +38,7 @@
                 <input type="hidden" name="motor_id" value="{{ $motor->id }}">
                 <div class="space-y-6">
                     <!-- Data Penyewa -->
-                    <h2 class="text-4xl font-semibold mb-4 text-blue-700 text-center">Form Pemesanan</h2><br>
+                    <h2 class="text-4xl font-semibold mb-4 text-blue-700 text-center">Form Booking Sepeda Motor</h2><br>
                     <h2 class="text-2xl font-semibold mb-4 text-blue-500">Data Penyewa</h2>
 
                     <div>
@@ -68,27 +68,19 @@
                         <label for="tanggal_kembali" class="block font-medium text-gray-700">Tanggal Kembali</label>
                         <input type="datetime-local" name="tanggal_kembali" id="tanggal_kembali" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required oninput="updateTotalPrice()">
                     </div>
+
+                    <div>
+                        <label for="jumlah" class="block font-medium text-gray-700">Jumlah Unit</label>
+                        <input type="number" name="jumlah" id="jumlah" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" value="1" min="1" required oninput="updateTotalPrice()">
+                    </div>
                     <div>
                         <label for="total_harga_display" class="block font-medium text-gray-700">Total Harga</label>
                         <input type="text" id="total_harga_display" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" readonly>
                         <input type="hidden" name="total_harga" id="total_harga" required>
-                    </div>
-
-                    <!-- Pembayaran -->
-                    <h2 class="text-2xl font-semibold mt-8 mb-4 text-blue-700">Pembayaran</h2>
-                    <div>
-                        <label for="metode_pembayaran" class="block font-medium text-gray-700">Metode Pembayaran</label>
-                        <select name="metode_pembayaran" id="metode_pembayaran" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
-                            <option value="bri">BRI</option>
-                            <option value="bni">BNI</option>
-                            <option value="bca">BCA</option>
-                            <option value="mandiri">Mandiri</option>
-                            <option value="dana">Dana</option>
-                        </select>
-                    </div>
+                </div>
 
                     <button type="submit" class="w-full mt-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200 transform hover:scale-105">
-                        Pesan
+                        Booking 
                     </button>
                 </div>
             </form>
@@ -117,6 +109,7 @@
         function updateTotalPrice() {
             const tanggalSewa = document.getElementById('tanggal_sewa').value;
             const tanggalKembali = document.getElementById('tanggal_kembali').value;
+            const jumlah = document.getElementById('jumlah').value; // Ambil nilai jumlah
             
             if (!tanggalSewa || !tanggalKembali) return;
             
@@ -125,18 +118,18 @@
             
             const diffTime = kembaliDate - sewaDate;
             const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
-        
+            
             const totalHari = diffDays <= 0 ? 1 : diffDays;
-        
-            const totalHarga = "{{$motor->harga_sewa }}" * totalHari;
-        
+            
+            const totalHarga = ({{$motor->harga_sewa}} * totalHari * jumlah); // Hitung total harga berdasarkan jumlah
+            
             const formatter = new Intl.NumberFormat('id-ID', {
                 style: 'currency',
                 currency: 'IDR',
             });
-        
+            
             const formattedTotalHarga = formatter.format(totalHarga);
-        
+            
             document.getElementById('total_harga_display').value = formattedTotalHarga;
             document.getElementById('total_harga').value = totalHarga;
         }

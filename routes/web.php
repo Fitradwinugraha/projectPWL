@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,8 +17,8 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// User Routes
-Route::get('/', [UserController::class, 'index']);
+// Halaman umum (diakses oleh semua role yang login dan guest)
+Route::get('/home', [UserController::class, 'index'])->name('home')->middleware(['auth','verified']);
 
 // Route untuk transaksi dengan parameter ID motor
 Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])
@@ -48,8 +49,6 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Halaman umum (diakses oleh semua role yang login dan guest)
-Route::get('/', [UserController::class, 'index'])->name('home'); // Halaman utama
 
 // Halaman user (hanya untuk role user)
 Route::middleware(['auth', 'checkRole:user'])->group(function () {
@@ -72,7 +71,7 @@ Route::middleware(['auth', 'checkRole:admin'])->group(function () {
     Route::get('/admin/tambahmotor', [AdminController::class, 'tambahMotor'])->name('admin.motor.create'); // Form tambah motor
     Route::post('/admin/motor', [AdminController::class, 'storeMotor'])->name('admin.storemotor'); // Simpan motor baru
     Route::get('/admin/motor/edit/{id}', [AdminController::class, 'editMotor'])->name('admin.editmotor'); // Form edit motor
-    Route::post('/admin/motor/update/{id}', [AdminController::class, 'updateMotor'])->name('admin.updatemotor'); // Update motor
+    Route::post('/admin/motor/update/{id}', [AdminController::class, 'updateMotor'])->name('admin.updatemotor');
     Route::delete('/admin/motor/delete/{id}', [AdminController::class, 'deleteMotor'])->name('admin.deletemotor'); // Hapus motor
 
     // Kelola Transaksi
@@ -85,3 +84,20 @@ Route::middleware(['auth', 'checkRole:admin'])->group(function () {
     Route::get('/admin/kelola-akun', [AdminController::class, 'showKelolaAkun'])->name('admin.kelola-akun');
 
 });
+    //Route verifikasi email pada register akun user
+    Route::get('/email/verify', function () {
+        return view('user.auth.verify-email');
+    })->middleware('auth')->name('verification.notice');
+
+    
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+    
+        return redirect('/home');
+    })->middleware(['auth', 'signed'])->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+    
+        return back()->with('message', 'Verification link sent!');
+    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');

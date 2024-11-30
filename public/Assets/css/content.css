@@ -169,3 +169,7 @@
     color: #555; /* Normal text color */
 }
 
+.horizontal-scroll{
+    width: 100%;
+    overflow-x: scroll;
+}
