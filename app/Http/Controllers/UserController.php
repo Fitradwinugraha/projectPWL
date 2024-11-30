@@ -109,7 +109,7 @@ class UserController extends Controller
             'tanggal_sewa' => 'required|date',
             'tanggal_kembali' => 'required|date|after:tanggal_sewa',
             'total_harga' => 'required|numeric',
-            'metode_pembayaran' => 'required|in:bri,bni,bca,mandiri,dana',
+            'jumlah' => 'required|integer|min:1', // Validasi jumlah
         ]);
     
         // Simpan KTP
@@ -122,25 +122,26 @@ class UserController extends Controller
             'motor_id' => $request->motor_id,
             'tanggal_sewa' => $request->tanggal_sewa,
             'tanggal_kembali' => $request->tanggal_kembali,
-            'jumlah' => 1, // Misalkan kita hanya sewa 1 motor
+            'jumlah' => $request->jumlah, // Simpan jumlah yang disewa
             'total_harga' => $request->total_harga,
-            'metode_pembayaran' => $request->metode_pembayaran,
-            // 'foto_bukti_pembayaran' => $buktiPembayaranFilename,
-            'status' => 'pending', // Status awal
+            'status' => 'menunggu konfirmasi', // Status awal
             'foto_ktp' => $ktpFilename, // Simpan foto KTP
             'no_telepon' => $request->telepon, // Simpan nomor telepon
         ]);
     
         // Kurangi jumlah motor yang tersedia
         $motor = Motor::findOrFail($request->motor_id);
-        $motor->decrement('jumlah');
+        $motor->decrement('jumlah', $request->jumlah); // Kurangi berdasarkan jumlah yang disewa
     
         return redirect()->route('user.riwayat_transaksi')->with('success', 'Pemesanan berhasil dilakukan. Mohon menunggu konfirmasi dari kami untuk melanjutkan ke proses pembayaran!');
     }
+        
   
     public function riwayatTransaksi()
     {
-        $transaksi = Transaksi::where('users_id', auth()->id())->with('motor')->get();
+        $transaksi = Transaksi::where('users_id', auth()->id())->with('motor')
+        ->orderBy('created_at', 'desc')
+        ->get();
         return view('user.riwayat_transaksi', compact('transaksi'));
     }
 
@@ -156,28 +157,28 @@ public function formPembayaran($id)
     return view('user.pembayaran', compact('transaksi'));
 }
 
-public function prosesPembayaran(Request $request, $id)
-{
+public function prosesPembayaran(Request $request, $id) {
     $request->validate([
         'bukti_bayar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'metode_pembayaran' => 'required|in:bri,bni,bca,mandiri,dana', // Tambahkan validasi
     ]);
 
     $transaksi = Transaksi::findOrFail($id);
-
+    
     if ($transaksi->status != 'dikonfirmasi') {
         return redirect()->route('user.pembayaran')->with('error', 'Transaksi tidak valid.');
     }
 
     $buktiBayar = $request->file('bukti_bayar')->store('bukti-bayar', 'public');
-
+    
     $transaksi->update([
-        'status' => 'pending',
+        'status' => 'menunggu konfirmasi',
         'foto_bukti_pembayaran' => $buktiBayar,
+        'metode_pembayaran' => $request->metode_pembayaran, // Simpan metode pembayaran baru
     ]);
 
     return redirect()->route('user.riwayat_transaksi')->with('success', 'Pembayaran telah dilakukan, menunggu konfirmasi admin.');
 }
-
 
 
     public function create()

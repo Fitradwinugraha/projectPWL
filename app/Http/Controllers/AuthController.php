@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -51,15 +52,21 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $this->user->create([
+        $user = $this->user->create([
             'nama' => $request->nama,
             'email' => $request->email,
             'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('login')->with('success', 'Account created successfully. Please login.');
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect('/email/verify');
     }
+
+    
 
     public function storeLogin(Request $request)
     {
@@ -77,10 +84,10 @@ class AuthController extends Controller
                 return redirect()->route('admin.dashboard');
             }
 
-            return redirect()->route('home')->with('success', 'Login successfully. Please Use Our Services');
+            return redirect()->route('home')->with('success', 'Selamat Datang Di SwiftBike!');
         }
     
-        return back()->withErrors(['username' => 'Invalid credentials provided']);
+        return back()->withErrors(['username' => 'Username atau password salah']);
     }
     
     

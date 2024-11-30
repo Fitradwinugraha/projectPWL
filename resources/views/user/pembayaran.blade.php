@@ -9,8 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gradient-to-b from-blue-100 via-blue-50 to-blue-200 min-h-screen flex flex-col">
-
-
+    
     @include('user.navbar')
 
     @if(session('success'))
@@ -20,18 +19,15 @@
                 <button onclick="closeToast()" class="text-white text-lg font-semibold">&times;</button>
             </div>
         </div>
-
         <script>
             window.onload = function() {
                 const toast = document.getElementById('toast');
                 toast.classList.remove('opacity-0', 'pointer-events-none');
                 toast.classList.add('opacity-100', 'pointer-events-auto');
-                
                 setTimeout(function() {
                     closeToast();
                 }, 5000);
             };
-
             function closeToast() {
                 const toast = document.getElementById('toast');
                 toast.classList.remove('opacity-100', 'pointer-events-auto');
@@ -47,18 +43,15 @@
                 <button onclick="closeToast()" class="text-white text-lg font-semibold">&times;</button>
             </div>
         </div>
-
         <script>
             window.onload = function() {
                 const toast = document.getElementById('toast');
                 toast.classList.remove('opacity-0', 'pointer-events-none');
                 toast.classList.add('opacity-100', 'pointer-events-auto');
-                
                 setTimeout(function() {
                     closeToast();
                 }, 5000);
             };
-
             function closeToast() {
                 const toast = document.getElementById('toast');
                 toast.classList.remove('opacity-100', 'pointer-events-auto');
@@ -68,7 +61,6 @@
     @endif
 
     <div class="mx-auto px-6 py-12 space-y-12">
-
         <div class="flex flex-col md:flex-row justify-center items-start gap-12">
             <div class="max-w-lg w-full bg-white p-8 rounded-2xl shadow-md">
                 <div class="flex justify-center -mt-16">
@@ -80,27 +72,59 @@
                 <p class="text-gray-600 text-center mb-6">
                     Silakan unggah bukti pembayaran Anda untuk melanjutkan proses transaksi. File berupa gambar <b>jpeg, png, jpg</b>.
                 </p>
+                
                 <form id="paymentForm" action="{{ route('user.prosesPembayaran', $transaksi->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2">Pilih Metode Pembayaran</label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <label class="block">
+                                <input type="radio" name="metode_pembayaran" value="bni" 
+                                       class="mr-2" 
+                                       {{ $transaksi->metode_pembayaran == 'bni' ? 'checked' : '' }}>
+                                <img src="https://www.bni.co.id/Portals/1/BNI/Images/logo-bni-new.png" 
+                                     class="inline-block w-20 h-10 object-contain">
+                            </label>
+                            <label class="block">
+                                <input type="radio" name="metode_pembayaran" value="bri" 
+                                       class="mr-2"
+                                       {{ $transaksi->metode_pembayaran == 'bri' ? 'checked' : '' }}>
+                                <img src="https://bri.co.id/o/bri-corporate-theme/images/bri-logo.png" 
+                                     class="inline-block w-20 h-10 object-contain">
+                            </label>
+                            <label class="block">
+                                <input type="radio" name="metode_pembayaran" value="bca" 
+                                       class="mr-2"
+                                       {{ $transaksi->metode_pembayaran == 'bca' ? 'checked' : '' }}>
+                                <img src="https://karir.bca.co.id/public/assets/img/logo-color.svg" 
+                                     class="inline-block w-20 h-10 object-contain">
+                            </label>
+                            <label class="block">
+                                <input type="radio" name="metode_pembayaran" value="mandiri" 
+                                       class="mr-2"
+                                       {{ $transaksi->metode_pembayaran == 'mandiri' ? 'checked' : '' }}>
+                                <img src="https://www.bankmandiri.co.id/image/layout_set_logo?img_id=31567&t=1732295033127" 
+                                     class="inline-block w-20 h-10 object-contain">
+                            </label>
+                            <label class="block">
+                                <input type="radio" name="metode_pembayaran" value="dana" 
+                                       class="mr-2"
+                                       {{ $transaksi->metode_pembayaran == 'dana' ? 'checked' : '' }}>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/2560px-Logo_dana_blue.svg.png" 
+                                     class="inline-block w-20 h-10 object-contain">
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="mb-6">
                         <label for="fileInput" class="block text-gray-700 font-medium mb-2">Unggah Bukti</label>
-                        <input type="file" name="bukti_bayar" id="fileInput" 
-                            class="block w-full border border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-700"
-                            accept="image/*"
-                            required>
+                        <input type="file" name="bukti_bayar" id="fileInput " class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
                     </div>
-                    <div class="mb-6">
-                        <label class="block text-gray-700 font-medium mb-2">Preview Gambar</label>
-                        <img id="imagePreview" class="w-full h-64 object-cover rounded-lg shadow-lg border" src="#" alt="Preview Gambar" style="display: none;">
-                    </div>
-                    <button type="button" onclick="confirmPayment()" 
-                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-700 transition">
-                        <i class="fas fa-upload mr-2"></i> Bayar Sekarang
-                    </button>
+
+                    <button type="submit" class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200">Kirim Bukti Pembayaran</button>
                 </form>
             </div>
-
-            <!-- Card: Detail Transaksi -->
             <div class="max-w-lg w-full bg-white p-8 rounded-2xl shadow-md">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6">Detail Transaksi</h2>
                 <div class="divide-y divide-gray-200">
@@ -197,45 +221,8 @@
                     <p class="text-center text-gray-600 mt-2"><strong>a.n. </strong><i>Jhon V Nababan</i></p>
                 </div>
             </div>
-            
         </div>
     </div>
-
-
     @include('user.footer')
-
-    <script>
-        document.getElementById('fileInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('imagePreview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
-
-    <script>
-        function confirmPayment() {
-            Swal.fire({
-                title: 'Konfirmasi Pembayaran',
-                text: 'Apakah Anda yakin ingin melanjutkan pembayaran ini?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Lanjutkan!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('paymentForm').submit();
-                }
-            });
-        }
-    </script>
 </body>
 </html>

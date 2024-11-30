@@ -18,6 +18,6 @@ class CheckRole
             }
         }
 
-        return redirect('/')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        return redirect('/home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
     }
 }

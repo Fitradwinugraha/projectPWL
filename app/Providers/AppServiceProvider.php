@@ -21,4 +21,13 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
+    
+    public function booted(\Closure $callback): void
+    {
+        Route::middleware('web')
+            ->middleware('verified') // Menambahkan middleware verified
+            ->group(base_path('routes/web.php'));
+    }
+    
 }

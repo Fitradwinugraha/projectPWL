@@ -11,7 +11,7 @@
         </div>
 
         <div class="hidden md:flex items-center space-x-8">
-            <a href="/" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Home</a>
+            <a href="/home" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Home</a>
             <a href="/#about" class="text-white hover:text-yellow-400 transition duration-300 text-lg">About</a>
             <a href="/#faq" class="text-white hover:text-yellow-400 transition duration-300 text-lg">FAQ</a>
 

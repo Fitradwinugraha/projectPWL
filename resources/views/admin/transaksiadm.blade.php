@@ -41,6 +41,7 @@
 @endsection
 
 @section('content')
+<div class="horizontal-scroll">
 <div class="transaksi-table-container">
     <h4>Daftar Transaksi</h4>
     <table class="table table-striped">
@@ -74,20 +75,30 @@
                 <td>Rp {{ number_format($item->total_harga, 2, ',', '.') }}</td>
                 <td>{{ strtoupper($item->metode_pembayaran) }}</td>
                 <td>
-                    <span class="badge {{ $item->status == 'pending' ? 'bg-warning' : ($item->status == 'dikonfirmasi' ? 'bg-success' : 'bg-danger') }}">
+                    <span class="badge 
+                        {{ 
+                            $item->status == 'menunggu konfirmasi' ? 'bg-warning' : 
+                            ($item->status == 'dikonfirmasi' ? 'bg-primary' : 
+                            ($item->status == 'selesai' ? 'bg-success' : 
+                            ($item->status == 'ditolak' ? 'bg-danger' : '')))
+                        }}">
                         {{ ucfirst($item->status) }}
                     </span>
                 </td>
                 <td>
-                    <!-- Edit Status -->
-                    <a href="{{ route('admin.edit_status_transaksi', $item->id) }}" class="btn btn-sm btn-warning">Edit Status</a>
+                    <div style="display: flex; align-items: center;">
+                        <a href="{{ route('admin.edit_status_transaksi', $item->id) }}">
+                            <img src="{{ asset('assets/img/edit.png') }}" alt="Edit" style="width: auto; height: 30px; margin-right: 5px;">
+                        </a>
 
-                    <!-- Tombol Hapus -->
                     <form action="{{ route('admin.deletetransaksi', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                        <button type="submit" class="btn" style="border: none; background: none; padding: 0;">
+                            <img src="{{ asset('assets/img/trash.png') }}" alt="Delete" style="width: 28px; height: 28px;">
+                        </button>
                     </form>
+                    </div>
                 </td>
 
             </tr>
@@ -98,5 +109,6 @@
             @endforelse
         </tbody>
     </table>
+</div>
 </div>
 @endsection
