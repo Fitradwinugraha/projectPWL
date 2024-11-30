@@ -129,12 +129,12 @@
         <div class="detail-item">
             <strong>Bukti Pembayaran:</strong>
             <span><br>
-            <img src="{{ asset('uploads/' . $transaksi->foto_ktp) }}" alt="Foto KTP" style="width: 500px; height: auto;"></span>
+            <img src="{{ asset('storage/' . $transaksi->foto_bukti_pembayaran) }}" alt="Bukti Pembayaran" style="width: 500px; height: auto;"></span>
         </div>
         <div class="detail-item">
             <strong>Foto KTP:</strong>
             <span><br>
-            <img src="{{ asset('uploads/' . $transaksi->foto_bukti_pembayaran) }}" alt="Bukti Pembayaran" style="width: 500px; height: auto;">
+            <img src="{{ asset('uploads/' . $transaksi->foto_ktp) }}" alt="KTP" style="width: 500px; height: auto;">
         </div>
     </div>
 

@@ -84,8 +84,4 @@ Route::middleware(['auth', 'checkRole:admin'])->group(function () {
     Route::delete('/admin/transaksi/delete/{id}', [AdminController::class, 'deleteTransaksi'])->name('admin.deletetransaksi');
     Route::get('/admin/kelola-akun', [AdminController::class, 'showKelolaAkun'])->name('admin.kelola-akun');
 
-    // Kelola Merek/Brand
-    Route::get('/admin/brand', [AdminController::class, 'showBrand'])->name('admin.brand'); // List merek
-    Route::get('/admin/tambahmerek', [AdminController::class, 'tambahMerek'])->name('admin.brand.create'); // Form tambah merek
-    Route::post('/admin/brand', [AdminController::class, 'storeMerek'])->name('admin.brand.store'); // Simpan merek baru
 });
