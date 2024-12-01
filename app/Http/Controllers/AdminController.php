@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\Motor;
-
+use App\Models\User;
 
 class AdminController extends Controller
 {
     public function dashboardAdmin()
     {
-        $title = 'Dashboard Admin';
-        return view('admin.dashboardadmin', compact('title'));
+      // Menghitung jumlah customer (user selain admin)
+      $customerCount = User::where('role', 'user')->count();
+
+      // Menghitung total armada sepeda motor
+      $motorCount = Motor::sum('jumlah');
+
+      // Menghitung total transaksi
+      $transactionCount = Transaksi::count();
+
+      return view('admin.dashboardadmin', [
+          'customerCount' => $customerCount,
+          'motorCount' => $motorCount,
+          'transactionCount' => $transactionCount,
+      ]);
     }
 
     public function tambahMotor()
@@ -155,8 +167,8 @@ class AdminController extends Controller
     public function showKelolaAkun()
     {
         $title = 'Kelola Akun';
-        $transaksi = \App\Models\Transaksi::with(['user', 'motor'])->get();
-        return view('admin.kelola-akun', compact('title', 'transaksi'));
+        $users = User::orderBy('nama', 'asc')->get();
+        return view('admin.kelola-akun', compact('title', 'users'));
     }
     public function deleteTransaksi($id)
     {

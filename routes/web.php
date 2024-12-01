@@ -18,7 +18,16 @@ use Illuminate\Http\Request;
 */
 
 // Halaman umum (diakses oleh semua role yang login dan guest)
-Route::get('/home', [UserController::class, 'index'])->name('home')->middleware(['auth','verified']);
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('home');
+    } else {
+        return redirect()->route('login');
+    }
+});
+
+Route::get('/home', [UserController::class, 'index'])->name('home')->middleware(['auth', 'skipVerifikasiAdmin']);
+
 
 // Route untuk transaksi dengan parameter ID motor
 Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])
@@ -86,14 +95,17 @@ Route::middleware(['auth', 'checkRole:admin'])->group(function () {
 });
     //Route verifikasi email pada register akun user
     Route::get('/email/verify', function () {
+        // Pastikan hanya user yang belum terverifikasi yang melihat halaman ini
+        if (Auth::user()->hasVerifiedEmail()) {
+            return redirect()->route('home');
+        }
         return view('user.auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
-
+    })->middleware(['auth'])->name('verification.notice');
     
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-    
-        return redirect('/home');
+        
+        return redirect()->route('home');
     })->middleware(['auth', 'signed'])->name('verification.verify');
 
     Route::post('/email/verification-notification', function (Request $request) {

@@ -30,48 +30,49 @@
             </a>
         </li>
         
-        <li class="nav-item2">
-        <a href="#" class="nav-link">
-                <img src="{{ asset('assets/img/logout.png') }}" alt="Logout Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;">
-                Logout
-            </a>
-        </li>
+      <li class="nav-item2">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="nav-link">
+                    <img src="{{ asset('assets/img/logout.png') }}" alt="Logout Icon" style="width: 18px; height: 18px; margin-right: 8px; vertical-align: middle;" alt="logout icon">
+                    Logout
+                </button>
+            </form>
+        </li>  
     </ul>
 </div>
 @endsection
 
 @section('content')
 <div class="transaksi-table-container">
-    <h4>Kelola Akun</h4>
+    <h4>Data Costumer</h4>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>No</th>
                 <th>Nama Costumer</th>
-                <th>Nama Motor</th>
-                <th>Nomor Telepon</th> 
-                <th>Status Penyewaan</th>
-                <th>Aksi</th>
+                <th>Email</th>
+                <th>Alamat Rumah</th>
+                <th>Foto</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($transaksi as $key => $item)
+    @forelse ($users as $key => $user)
+        @if ($user->role !== 'admin')  <!-- Memastikan yang ditampilkan bukan admin -->
             <tr>
-                <td>{{ $key + 1 }}</td>
-                <td>{{ $item->user->nama }}</td>
-                <td>{{ $item->motor->nama_motor }}</td>
-                <td>{{ $item->no_telepon }}</td>
-                <td> </td>
-                <td>
-                    <a href="#" class="btn btn-sm btn-warning">Edit Status</a>
-                </td>
+                <td>{{ $key + 0 }}</td>
+                <td>{{ $user->nama ?? '-' }}</td> <!-- Kolom nama -->
+                <td>{{ $user->email ?? '-' }}</td> 
+                <td>{{ $user->alamat ?? '-' }}</td>
+                <td><img src="{{ asset('storage/' . $user->foto) }}" alt="Belum ada foto" style="width: 100px; height: auto;"></td> <!-- Kolom foto -->
             </tr>
-            @empty
-            <tr>
-                <td colspan="15" class="text-center">Belum ada data</td>
-            </tr>
-            @endforelse
-        </tbody>
+        @endif
+    @empty
+        <tr>
+            <td colspan="6" class="text-center">Belum ada data</td>
+        </tr>
+    @endforelse
+</tbody>
     </table>
 </div>
 @endsection

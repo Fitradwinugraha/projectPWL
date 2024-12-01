@@ -63,6 +63,10 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard'); // Arahkan ke dashboard admin
+        }
+
         return redirect('/email/verify');
     }
 
