@@ -13,6 +13,45 @@
 
     @include('user.navbar')
 
+    @if ($errors->any())
+        <div id="toast-container" class="fixed bottom-4 right-4 space-y-4">
+            @foreach ($errors->all() as $error)
+                <div class="bg-red-500 text-white p-4 rounded-lg shadow-lg w-80 max-w-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out toast">
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm font-semibold">{{ $error }}</p>
+                        <button onclick="closeToast(this)" class="text-white text-lg font-semibold">&times;</button>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <script>
+            window.onload = function() {
+                const toasts = document.querySelectorAll('.toast');
+                toasts.forEach((toast, index) => {
+                    setTimeout(() => {
+                        toast.classList.remove('opacity-0', 'pointer-events-none');
+                        toast.classList.add('opacity-100', 'pointer-events-auto');
+                    }, index * 500);
+                });
+
+                toasts.forEach((toast) => {
+                    setTimeout(() => {
+                        closeToast(toast);
+                    }, 5000);
+                });
+            };
+
+            function closeToast(toast) {
+                toast.classList.remove('opacity-100', 'pointer-events-auto');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }
+        </script>
+    @endif
+
     @if(session('success'))
         <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg w-80 max-w-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out">
             <div class="flex justify-between items-center">

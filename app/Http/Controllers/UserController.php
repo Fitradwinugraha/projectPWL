@@ -144,39 +144,39 @@ class UserController extends Controller
         return view('user.riwayat_transaksi', compact('transaksi'));
     }
 
-    // App\Http\Controllers\TransaksiController.php
-public function formPembayaran($id)
-{
-    $transaksi = Transaksi::findOrFail($id);
 
-    if ($transaksi->status != 'dikonfirmasi') {
-        return redirect()->route('user.transaksi')->with('error', 'Transaksi tidak valid.');
+    public function formPembayaran($id)
+    {
+        $transaksi = Transaksi::findOrFail($id);
+
+        if ($transaksi->status != 'dikonfirmasi') {
+            return redirect()->route('user.transaksi')->with('error', 'Transaksi tidak valid.');
+        }
+
+        return view('user.pembayaran', compact('transaksi'));
     }
 
-    return view('user.pembayaran', compact('transaksi'));
-}
+    public function prosesPembayaran(Request $request, $id)
+    {
+        $request->validate([
+            'bukti_bayar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-public function prosesPembayaran(Request $request, $id)
-{
-    $request->validate([
-        'bukti_bayar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
+        $transaksi = Transaksi::findOrFail($id);
 
-    $transaksi = Transaksi::findOrFail($id);
+        if ($transaksi->status != 'dikonfirmasi') {
+            return redirect()->route('user.pembayaran')->with('error', 'Transaksi tidak valid.');
+        }
 
-    if ($transaksi->status != 'dikonfirmasi') {
-        return redirect()->route('user.pembayaran')->with('error', 'Transaksi tidak valid.');
+        $buktiBayar = $request->file('bukti_bayar')->store('bukti-bayar', 'public');
+
+        $transaksi->update([
+            'status' => 'pending',
+            'foto_bukti_pembayaran' => $buktiBayar,
+        ]);
+
+        return redirect()->route('user.riwayat_transaksi')->with('success', 'Pembayaran Anda telah berhasil diproses. Harap tunggu konfirmasi dari admin. Anda akan menerima bukti pembayaran yang perlu ditunjukkan saat tiba di lokasi.');
     }
-
-    $buktiBayar = $request->file('bukti_bayar')->store('bukti-bayar', 'public');
-
-    $transaksi->update([
-        'status' => 'pending',
-        'foto_bukti_pembayaran' => $buktiBayar,
-    ]);
-
-    return redirect()->route('user.riwayat_transaksi')->with('success', 'Pembayaran telah dilakukan, menunggu konfirmasi admin.');
-}
 
 
 

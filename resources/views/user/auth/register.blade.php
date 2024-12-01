@@ -8,6 +8,45 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+@if ($errors->any())
+    <div id="toast-container" class="fixed bottom-4 right-4 space-y-4">
+        @foreach ($errors->all() as $error)
+            <div class="bg-red-500 text-white p-4 rounded-lg shadow-lg w-80 max-w-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out toast">
+                <div class="flex justify-between items-center">
+                    <p class="text-sm font-semibold">{{ $error }}</p>
+                    <button onclick="closeToast(this)" class="text-white text-lg font-semibold">&times;</button>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <script>
+        window.onload = function() {
+            const toasts = document.querySelectorAll('.toast');
+            toasts.forEach((toast, index) => {
+                setTimeout(() => {
+                    toast.classList.remove('opacity-0', 'pointer-events-none');
+                    toast.classList.add('opacity-100', 'pointer-events-auto');
+                }, index * 500); 
+            });
+
+            toasts.forEach((toast) => {
+                setTimeout(() => {
+                    closeToast(toast);
+                }, 5000);
+            });
+        };
+
+        function closeToast(toast) {
+            toast.classList.remove('opacity-100', 'pointer-events-auto');
+            toast.classList.add('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.remove(); 
+            }, 500); 
+        }
+    </script>
+@endif
+
 
     <section class="bg-[#eee] flex justify-center items-center min-h-screen p-4">
         <div class="w-full max-w-4xl flex flex-col md:flex-row shadow-lg rounded-lg overflow-hidden">
@@ -31,24 +70,81 @@
                     @csrf
                     <div>
                         <label for="nama" class="sr-only">Nama</label>
-                        <input type="text" name="nama" id="nama" placeholder="Nama" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-teal-500" required>
+                        <input 
+                            type="text" 
+                            name="nama" 
+                            id="nama" 
+                            placeholder="Nama" 
+                            class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-teal-500" 
+                            value="{{ old('nama') }}" 
+                            required
+                        >
                     </div>
                     <div>
                         <label for="email" class="sr-only">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Email" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-teal-500" required>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="email" 
+                            placeholder="Email" 
+                            class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-teal-500" 
+                            value="{{ old('email') }}" 
+                            required
+                        >
                     </div>
                     <div>
                         <label for="username" class="sr-only">Username</label>
-                        <input type="text" name="username" id="username" placeholder="Username" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-teal-500" required>
+                        <input 
+                            type="text" 
+                            name="username" 
+                            id="username" 
+                            placeholder="Username" 
+                            class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-teal-500" 
+                            value="{{ old('username') }}" 
+                            required
+                        >
                     </div>
-                    <div>
+                    <div class="relative flex flex-col">
                         <label for="password" class="sr-only">Password</label>
-                        <input type="password" name="password" id="password" placeholder="Password" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-teal-500" required>
+                        <div class="relative">
+                            <input 
+                                type="password" 
+                                name="password" 
+                                id="password" 
+                                placeholder="Password" 
+                                class="w-full border border-gray-300 p-3 pr-10 rounded-md focus:outline-none focus:border-teal-500" 
+                                required
+                            >
+                            <button 
+                                type="button" 
+                                onclick="togglePasswordVisibility()" 
+                                class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-teal-500 focus:outline-none"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
+
                     <button class="w-full bg-teal-500 text-white font-semibold py-3 rounded-full">Sign Up</button>
                 </form>
+
             </div>
         </div>
     </section>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `<i class="fas fa-eye"></i>`;
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `<i class="fas fa-eye"></i>`;
+            }
+        }
+    </script>
 </body>
 </html>

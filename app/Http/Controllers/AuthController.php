@@ -46,9 +46,9 @@ class AuthController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'username' => 'required|string|max:255',
-            'password' => 'required|string',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'username' => 'required|string|max:255|unique:users,username',
+            'password' => 'required|string|min:8',
         ]);
 
         $this->user->create([
@@ -60,6 +60,7 @@ class AuthController extends Controller
 
         return redirect()->route('login')->with('success', 'Account created successfully. Please login.');
     }
+
 
     public function storeLogin(Request $request)
     {
@@ -83,9 +84,6 @@ class AuthController extends Controller
         return back()->withErrors(['username' => 'Invalid credentials provided']);
     }
     
-    
-
-    
 
     public function logout()
     {
@@ -98,47 +96,59 @@ class AuthController extends Controller
         return view('user.auth.forgot-password');
     }
 
-    // Send reset password link
     public function sendResetLink(Request $request)
-    {
-        $request->validate(['email' => 'required|email']);
+{
+    // Validasi Input
+    $validatedData = $request->validate(
+        [
+            'email' => 'required|email',
+        ],
+        [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+        ]
+    );
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
-    }
+    return $status === Password::RESET_LINK_SENT
+        ? back()->with(['status' => __($status)])
+        : back()->withErrors(['email' => __($status)]);
+}
 
-    // Display the reset password form
     public function showResetPasswordForm($token)
     {
         return view('user.auth.reset-password', ['token' => $token]);
     }
 
-    // Handle reset password
     public function resetPassword(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
-        ]);
+{
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->password = Hash::make($password);
-                $user->save();
-            }
-        );
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->password = Hash::make($password);
+            $user->save();
+        }
+    );
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+    if ($status === Password::PASSWORD_RESET) {
+        return redirect()->route('login')->with('success', 'Password berhasil diubah.');
     }
+
+    return back()->withInput($request->only('email'))->withErrors([
+        'email' => __($status),
+    ]);
+}
+
+
 
     /**
      * Display the specified resource.

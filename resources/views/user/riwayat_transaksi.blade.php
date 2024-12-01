@@ -15,7 +15,7 @@
         <h1 class="text-2xl font-bold mb-5">Riwayat Transaksi</h1>
 
         @if(session('success'))
-        <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg w-80 max-w-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out">
+        <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg w-80 max-w-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out z-999">
             <div class="flex justify-between items-center">
                 <p class="text-sm font-semibold">{{ session('success') }}</p>
                 <button onclick="closeToast()" class="text-white text-lg font-semibold">&times;</button>
@@ -99,7 +99,7 @@
                                     Lihat Detail
                                 </button>
                             @else
-                                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{ $item->status == 'pending' ? 'bg-yellow-400 text-white' : ($item->status == 'dibatalkan' ? 'bg-red-500 text-white' : 'bg-green-500 text-white') }}">
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold {{ $item->status == 'pending' ? 'bg-yellow-400 text-white px-4 py-2' : ($item->status == 'dibatalkan' ? 'bg-red-500 text-white px-4 py-2' : 'bg-green-500 text-white px-4 py-2') }}">
                                     {{ ucfirst($item->status) }}
                                 </span>
                             @endif

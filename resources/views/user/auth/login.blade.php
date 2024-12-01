@@ -10,7 +10,7 @@
 <body>
 
     @error('username')
-        <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg w-80 max-w-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out">
+        <div id="toast" class="fixed bottom-4 right-4 bg-red-500 text-white p-4 rounded-lg shadow-lg w-80 max-w-full opacity-0 pointer-events-none transition-all duration-500 ease-in-out">
             <div class="flex justify-between items-center">
                 <p class="text-sm font-semibold">{{ $message }}</p>
                 <button onclick="closeToast()" class="text-white text-lg font-semibold">&times;</button>
@@ -82,9 +82,28 @@
                         <label for="username" class="sr-only">Username</label>
                         <input type="text" id="username" name="username" placeholder="Username" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-green-500" required>
                     </div>
-                    <div>
+                    <div class="relative flex flex-col">
                         <label for="password" class="sr-only">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Password" class="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:border-green-500" required>
+                        <div class="relative">
+                            <input 
+                                type="password" 
+                                name="password" 
+                                id="password" 
+                                placeholder="Password" 
+                                class="w-full border border-gray-300 p-3 pr-10 rounded-md focus:outline-none focus:border-teal-500" 
+                                required
+                            >
+                            <button 
+                                type="button" 
+                                onclick="togglePasswordVisibility()" 
+                                class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-teal-500 focus:outline-none"
+                            >
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        @error('password')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="text-right text-sm text-green-500 hover:underline">
                         <a href="{{ route('password.request') }}">
@@ -102,5 +121,20 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `<i class="fas fa-eye"></i>`;
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `<i class="fas fa-eye"></i>`;
+            }
+        }
+    </script>
 </body>
 </html>

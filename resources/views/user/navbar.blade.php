@@ -18,7 +18,7 @@
             @if(auth()->check())
                 <a href="/riwayat-transaksi" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Transaksi</a>
             @else
-            <a href="/login" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Transaksi</a>
+                <a href="/login" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Transaksi</a>
             @endif
 
             @auth
@@ -59,6 +59,13 @@
                 <img src="{{ asset('assets/img/logos.png') }}" alt="logo" class="h-15 w-auto mb-4">
                 <a href="/" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Home</a>
                 <a href="/#about" class="text-white hover:text-yellow-400 transition duration-300 text-lg">About</a>
+                <a href="/#faq" class="text-white hover:text-yellow-400 transition duration-300 text-lg">FAQ</a>
+
+                @if(auth()->check())
+                    <a href="/riwayat-transaksi" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Transaksi</a>
+                @else
+                    <a href="/login" class="text-white hover:text-yellow-400 transition duration-300 text-lg">Transaksi</a>
+                @endif
 
                 @auth
                 <div class="relative">

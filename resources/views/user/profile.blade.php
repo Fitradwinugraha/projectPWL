@@ -40,8 +40,8 @@
     @endif
 
 
-    <section class="flex justify-center py-10">
-        <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8">
+    <section class=" flex justify-center py-10">
+        <div class="shadow-lg rounded-lg w-full max-w-4xl p-8">
             <div class="relative flex flex-col items-center justify-center mt-4 mb-10 w-full md:w-1/2">
                 <h1 class="absolute text-6xl md:text-8xl font-extrabold text-gray-300 opacity-25 select-none">
                     Profile
@@ -54,10 +54,10 @@
             <div class="bg-gray-200 h-[2px] w-full my-4"></div>
 
             <div class="flex flex-col md:flex-row">
-                <div class="bg-gradient-to-r from-teal-400 to-white shadow-md md:w-1/3 flex flex-col items-center mb-8 md:mb-0 py-8 rounded">
+                <div class="bg-white shadow-md md:w-1/3 flex flex-col items-center mb-8 md:mb-0 py-8 rounded">
                     <div class="w-32 h-32 rounded-full bg-gray-200 mb-4 flex items-center justify-center">
                         @if (auth()->user()->foto)
-                            <img src="{{ asset('storage/' . auth()->user()->foto) }}" alt="User Foto" class="w-auto h-full object-cover rounded-full">
+                            <img src="{{ asset('storage/' . auth()->user()->foto) }}" alt="User Foto" class="w-auto h-full object-cover rounded-full transform hover:scale-105 transition-transform duration-300 ease-in-out">
                         @else
                             <img src="https://via.placeholder.com/150" alt="Default Foto" class="w-full h-full object-cover rounded-full">
                         @endif

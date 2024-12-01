@@ -16,25 +16,12 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// User Routes
-Route::get('/', [UserController::class, 'index']);
+Route::fallback(function () {
+    abort(404);
+});
 
-// Route untuk transaksi dengan parameter ID motor
-Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])
-    ->name('transaksi')
-    ->middleware('auth');
+Route::get('/', [UserController::class, 'index'])->name('home');
 
-Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
-Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
-Route::put('/profile/update-foto', [UserController::class, 'updateFoto'])->name('profile.updateFoto');
-
-// Rute untuk menyimpan transaksi
-Route::post('/transaksi/store', [UserController::class, 'storeTransaksi'])->name('user.storeTransaksi')->middleware('auth');
-
-// Rute untuk melihat riwayat transaksi
-Route::get('/riwayat-transaksi', [UserController::class, 'riwayatTransaksi'])->name('user.riwayat_transaksi')->middleware('auth');
-
-// Auth Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'storeLogin'])->name('login');
@@ -48,18 +35,21 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Halaman umum (diakses oleh semua role yang login dan guest)
-Route::get('/', [UserController::class, 'index'])->name('home'); // Halaman utama
 
-// Halaman user (hanya untuk role user)
 Route::middleware(['auth', 'checkRole:user'])->group(function () {
-    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile'); // Profil user
-    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update'); // Update profil
-    Route::get('/riwayat-transaksi', [UserController::class, 'riwayatTransaksi'])->name('user.riwayat_transaksi'); // Riwayat transaksi
-    Route::post('/transaksi/store', [UserController::class, 'storeTransaksi'])->name('user.storeTransaksi'); // Simpan transaksi baru
+    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/riwayat-transaksi', [UserController::class, 'riwayatTransaksi'])->name('user.riwayat_transaksi');
+    Route::post('/transaksi/store', [UserController::class, 'storeTransaksi'])->name('user.storeTransaksi');
     Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])->name('transaksi');
     Route::get('/transaksi/{id}/bayar', [UserController::class, 'formPembayaran'])->name('user.pembayaran');
     Route::post('/transaksi/{id}/bayar', [UserController::class, 'prosesPembayaran'])->name('user.prosesPembayaran');
+    Route::get('/profile', [UserController::class, 'profile']);
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/update-foto', [UserController::class, 'updateFoto'])->name('profile.updateFoto');
+    Route::post('/transaksi/store', [UserController::class, 'storeTransaksi'])->name('user.storeTransaksi');
+    Route::get('/riwayat-transaksi', [UserController::class, 'riwayatTransaksi'])->name('user.riwayat_transaksi');
+    Route::get('/transaksi/{id}', [UserController::class, 'transaksi'])->name('transaksi');
 });
 
 // Halaman admin (Khusus untuk role admin)
