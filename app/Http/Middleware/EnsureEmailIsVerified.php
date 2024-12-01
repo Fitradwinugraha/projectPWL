@@ -8,12 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class EnsureEmailIsVerified
 {
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next)
     {
-        if (Auth::check() && !Auth::user()->hasVerifiedEmail()) {
-            return redirect()->route('verification.notice');
+        // Jika user adalah admin, lewati verifikasi
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return $next($request);
+        }
+
+        // Untuk user biasa, jalankan logika verifikasi email
+        if (!$request->user() ||
+            ($request->user() instanceof MustVerifyEmail &&
+            !$request->user()->hasVerifiedEmail())) {
+            return Redirect::route('verification.notice');
         }
 
         return $next($request);
     }
+
 }

@@ -22,6 +22,11 @@ class Motor extends Model
         'deskripsi',
         'jumlah',
     ];
+
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'motor_id');
+    }
 }
 
 

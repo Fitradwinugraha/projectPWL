@@ -59,18 +59,18 @@
     
     <div class="container d-flex gap-5 mt-4">
         <div class="card card-blue">
-            <div class="title">Akun</div>
-            <div class="value">--</div>
+            <div class="title">Costumer</div>
+            <div class="value">{{ $customerCount }}</div>
             <div class="icon"><i class="fas fa-dollar-sign"></i></div>
         </div>
         <div class="card card-green">
             <div class="title">Armada SepedaMotor</div>
-            <div class="value">--</div>
+            <div class="value">{{ $motorCount }}</div>
             <div class="icon"><i class="fas fa-exchange-alt"></i></div>
         </div>
         <div class="card card-teal">
-            <div class="title">Total Booking</div>
-            <div class="value">--</div>
+            <div class="title">Total Transaksi</div>
+            <div class="value">{{ $transactionCount }}</div>
             <div class="icon"><i class="fas fa-wallet"></i></div>
         </div>
        
